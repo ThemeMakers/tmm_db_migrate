@@ -13,11 +13,21 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		return serialize($obj);
 	}
 
-	/* calling by ajax */
+	/* ajax */
 	public function import_data() {
+		/* backup database tables */
+		$export = new TMM_MigrateExport();
+		$export->backup_data();
+
+		/* upload archive with demo data */
 		$counter = 0;
+		$db_upload_dir = $this->get_upload_dir();
+		$this->create_upload_folder();
+		copy( TMM_MIGRATE_PATH . 'demo_data/' . self::folder_key . '.zip', $db_upload_dir . self::folder_key . '.zip' );
+
+		/* extract and install demo content */
 		$this->extract_zip();
-		chdir($this->get_upload_dir());
+		chdir($db_upload_dir);
 		$dat_files = glob("*.dat");
 
 		if(is_array($dat_files)){
@@ -25,18 +35,21 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 			foreach ($dat_files as $filename) {
 				$table = basename($filename, '.dat');
+
 				try {
-					$this->process_table($table);
-					if(file_exists($this->get_upload_dir() . $table . '.dsc')){
-						unlink($this->get_upload_dir() . $table . '.dsc');
+					if (@strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false) {
+						$this->process_table($table);
 					}
-					if(file_exists($this->get_upload_dir() . $table . '.dat')){
-						unlink($this->get_upload_dir() . $table . '.dat');
+					if(file_exists($db_upload_dir . $table . '.dsc')){
+						unlink($db_upload_dir . $table . '.dsc');
+					}
+					if(file_exists($db_upload_dir . $table . '.dat')){
+						unlink($db_upload_dir . $table . '.dat');
 					}
 				} catch (Exception $e) {}
 			}
-			if(file_exists($this->get_upload_dir() . 'wpdb.prfx')){
-				unlink($this->get_upload_dir() . 'wpdb.prfx');
+			if(file_exists($db_upload_dir . 'wpdb.prfx')){
+				unlink($db_upload_dir . 'wpdb.prfx');
 			}
 		}
 
@@ -45,8 +58,9 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 	public function process_table($table) {
 		global $wpdb;
-		$table_dsc = unserialize(file_get_contents($this->get_upload_dir() . $table . '.dsc'));
-		$old_wpdb_prefix = file_get_contents($this->get_upload_dir() . 'wpdb.prfx');
+		$db_upload_dir = $this->get_upload_dir();
+		$table_dsc = unserialize(file_get_contents($db_upload_dir . $table . '.dsc'));
+		$old_wpdb_prefix = file_get_contents($db_upload_dir . 'wpdb.prfx');
 		$new_table_name = preg_replace('[^' . $old_wpdb_prefix . ']', $wpdb->prefix, $table);
 
 		$wpdb->query('DROP TABLE IF EXISTS `' . $new_table_name . '`;');
@@ -116,8 +130,8 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		$table_sql = str_replace(",);", ");", $table_sql);
 		$wpdb->query($table_sql);
 
-		//*** DATA INSERTING
-		$content = str_replace('__tmm_old_home_url__', home_url(), file_get_contents($this->get_upload_dir() . $table . '.dat'));
+		/* data inserting */
+		$content = str_replace('__tmm_old_home_url__', home_url(), file_get_contents($db_upload_dir . $table . '.dat'));
 		$content = str_replace('__tmm_wpdb_prefix__', $wpdb->prefix, $content);
 		$content = str_replace('stdClass::__set_state', 'self::set_state', $content);
 

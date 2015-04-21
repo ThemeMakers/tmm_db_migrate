@@ -9,7 +9,8 @@
  * Text Domain: tmm_db_migrate
  */
 
-define('TMM_MIGRATE_PLUGIN_TEXTDOMAIN', 'tmm_db_migrate');
+define('TMM_MIGRATE_TEXTDOMAIN', 'tmm_db_migrate');
+define('TMM_MIGRATE_PATH', plugin_dir_path(__FILE__));
 
 class TMM_MigratePlugin {
 
@@ -31,7 +32,7 @@ class TMM_MigratePlugin {
 		if(intval(ini_get('max_execution_time')) < 180){
 			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
 		}
-		load_plugin_textdomain(TMM_MIGRATE_PLUGIN_TEXTDOMAIN, false, $this->get_application_path() . 'languages');
+		load_plugin_textdomain(TMM_MIGRATE_TEXTDOMAIN, false, $this->get_application_path() . 'languages');
 		add_action('admin_notices', array($this, 'admin_notices'));
 
 		include_once $this->get_application_path() . 'classes/TMM_MigrateHelper.php';
@@ -52,24 +53,23 @@ class TMM_MigratePlugin {
 	public function admin_notices() {
 		$notices = "";
 		if (!is_writable($this->export->get_upload_dir())) {
-			$notices.=sprintf(__('<div class="error"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href="http://webtemplatemasters.com/tutorials/permissions/" target="_blank">the link</a> to read the instructions how to do it properly.</p></div>', TMM_MIGRATE_PLUGIN_TEXTDOMAIN), $this->export->get_upload_dir());
+			$notices.=sprintf(__('<div class="error"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href="http://webtemplatemasters.com/tutorials/permissions/" target="_blank">the link</a> to read the instructions how to do it properly.</p></div>', TMM_MIGRATE_TEXTDOMAIN), $this->export->get_upload_dir());
 		}
 		echo $notices;
 	}
 
-	public static function draw_options_page() {
-		wp_enqueue_script('tmm_db_migrate_exp', self::get_application_uri() . 'js/export.js', array('jquery'));
-		wp_enqueue_script('tmm_db_migrate_imp', self::get_application_uri() . 'js/import.js', array('jquery'));
+	public static function admin_enqueue_scripts() {
+		wp_enqueue_script('tmm_db_migrate', self::get_application_uri() . 'js/import_export.js', array('jquery'));
 		?>
 		<script type="text/javascript">
 			var tmm_db_migrate_link = "<?php echo self::get_application_uri() ?>";
-			var tmm_db_migrate_lang1 = "<?php _e('Prepare finished. Count of tables:', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang2 = "<?php _e('Process table:', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang3 = "<?php _e('Process Finishing ...', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang4 = "<?php _e('Download data zip', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang5 = "<?php _e('Import started. Please wait ...', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang6 = "<?php _e('Import finished. Count of tables:', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang7 = "<?php _e('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_PLUGIN_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang1 = "<?php _e('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang2 = "<?php _e('Process table:', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang3 = "<?php _e('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang4 = "<?php _e('Download data zip', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang5 = "<?php _e('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang6 = "<?php _e('Import finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
+			var tmm_db_migrate_lang7 = "<?php _e('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN); ?>";
 		</script>
 		<?php
 	}
@@ -87,4 +87,4 @@ class TMM_MigratePlugin {
 if (is_admin()) {
 	add_action('init', array(new TMM_MigratePlugin(), 'init'), 999);
 }
-add_action('admin_enqueue_scripts', array('TMM_MigratePlugin', 'draw_options_page'));
+add_action('admin_enqueue_scripts', array('TMM_MigratePlugin', 'admin_enqueue_scripts'));

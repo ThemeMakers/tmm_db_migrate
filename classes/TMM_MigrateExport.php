@@ -6,47 +6,84 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 
 	//ajax
 	public function prepare_export_data() {
-		$this->create_upload_folder();
+		$this->create_upload_folder('', true);
 		wp_die(json_encode($this->get_wp_tables()));
 	}
 
-	//ajax
-	public function process_table() {
-		global $wpdb;
-		$table = $_REQUEST['table'];
-		$result = array();
-		$query_res = $wpdb->get_results("SELECT * FROM " . $table, ARRAY_A);
-		if (!empty($query_res)) {
-			foreach ($query_res as $row) {
-				if (is_array($row)) {
-					foreach ($row as $field_key => $value) {
-						if (is_serialized($value)) {
-							$row[$field_key] = unserialize($value);
-						}
-					}
-				}
-				//***for wp_options
-				if ($table == $wpdb->options) {
-					$continue_array = array('_site_transient_update_core', '_site_transient_update_plugins', '_site_transient_update_themes', 'layerslider_update_info', 'wp_icl_translators_cached');
-					if (in_array($row['option_name'], $continue_array)) {
-						continue;
-					}
-                    $pos = strpos($row['option_name'], '_transient_');
-                    if ($pos !== false){
-                        continue;
-                    }                    
-				}
+	public function backup_data() {
+		$this->create_upload_folder('backup');
+		$tables = $this->get_wp_tables();
 
-				$result[] = $row;
-			}
+		foreach ( $tables as $table ) {
+			$this->process_table($table, true);
 		}
 
-		$content = $this->prepare_export_content(var_export($result, true));
+		$this->zip_export_data(true);
+	}
 
-		file_put_contents($this->get_upload_dir() . $table . '.dat', $content);
-		file_put_contents($this->get_upload_dir() . $table . '.dsc', serialize($wpdb->get_results("DESCRIBE " . $table)));
+	//ajax
+	public function process_table($table = '', $is_backup = false) {
+		global $wpdb;
+		$result = array();
 
-		wp_die(count($result));
+		if (!empty($_POST['table'])) {
+			$table = $_POST['table'];
+		}
+
+		if (!empty($_POST['is_backup'])) {
+			$is_backup = (bool) $_POST['is_backup'];
+		}
+
+		if ($table && @strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false) {
+
+			$query_res = $wpdb->get_results("SELECT * FROM " . $table, ARRAY_A);
+
+			if (!empty($query_res)) {
+
+				foreach ($query_res as $row) {
+
+					if (is_array($row)) {
+						foreach ($row as $field_key => $value) {
+							if (is_serialized($value)) {
+								$row[$field_key] = @unserialize($value);
+							}
+						}
+					}
+
+					/* remove transient in wp_options */
+					if ($table == $wpdb->options) {
+						$continue_array = array(
+							'layerslider_update_info',
+							'wp_icl_translators_cached'
+						);
+	                    $pos = strpos($row['option_name'], '_transient_');
+
+						if (in_array($row['option_name'], $continue_array) || $pos !== false) {
+							continue;
+						}
+
+					}
+
+					$result[] = $row;
+				}
+			}
+
+			$content = $this->prepare_export_content(var_export($result, true));
+			$path = $this->get_upload_dir();
+
+			if ($is_backup) {
+				$this->create_upload_folder('backup');
+				$path .= 'backup/';
+			}
+
+			file_put_contents( $path . $table . '.dat', $content );
+			file_put_contents( $path . $table . '.dsc', serialize($wpdb->get_results("DESCRIBE " . $table)) );
+
+		}
+
+		if (!empty($_POST['table'])) {
+			wp_die(count($result));
+		}
 	}
 
 	private function prepare_export_content($content) {
@@ -94,11 +131,17 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 	}
 
 	//ajax
-	public function zip_export_data() {
+	public function zip_export_data($is_backup = false) {
 		$uploads_path = $this->get_wp_upload_dir();
 		$zip_path = $this->get_upload_dir();
+
+		if ($is_backup) {
+			$zip_path .= 'backup/';
+		}
+
 		$tables = $this->get_wp_tables();
-		$zip_filename = self::get_zip_file_path();
+		$zip_filename = $zip_path . self::folder_key . '.zip';
+
 		global $wpdb;
 		
 		file_put_contents($zip_path . 'wpdb.prfx', $wpdb->prefix);
@@ -140,18 +183,21 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		reset_mbstring_encoding();
 		
 		foreach ($tables as $table) {
-			if(file_exists($this->get_upload_dir() . $table . '.dsc')){
-				unlink($this->get_upload_dir() . $table . '.dsc');
+			if(file_exists($zip_path . $table . '.dsc')){
+				unlink($zip_path . $table . '.dsc');
 			}
-			if(file_exists($this->get_upload_dir() . $table . '.dat')){
-				unlink($this->get_upload_dir() . $table . '.dat');
+			if(file_exists($zip_path . $table . '.dat')){
+				unlink($zip_path . $table . '.dat');
 			}
 		}
-		if(file_exists($this->get_upload_dir() . 'wpdb.prfx')){
-			unlink($this->get_upload_dir() . 'wpdb.prfx');
+		if(file_exists($zip_path . 'wpdb.prfx')){
+			unlink($zip_path . 'wpdb.prfx');
 		}
-		
-		wp_die($this->get_zip_file_url());
+
+		if (!$is_backup) {
+			wp_die($this->get_zip_file_url());
+		}
+
 	}
 
 }
