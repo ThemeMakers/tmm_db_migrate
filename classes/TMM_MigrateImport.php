@@ -27,7 +27,11 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		/* upload archive with demo data */
 		$db_upload_dir = $this->get_upload_dir();
 		$this->create_upload_folder();
-		copy( TMM_MIGRATE_PATH . 'demo_data/' . self::folder_key . '.zip', $db_upload_dir . self::folder_key . '.zip' );
+		$demofile_name = TMM_MIGRATE_PATH . 'demo_data/' . self::folder_key . '.zip';
+
+		if (file_exists($demofile_name)) {
+			copy( $demofile_name, $db_upload_dir . self::folder_key . '.zip' );
+		}
 
 		/* extract and install demo content */
 		$this->extract_zip();
@@ -64,18 +68,13 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 			$attachments = get_posts( array('post_type' => 'attachment', 'post_mime_type' => 'image', 'numberposts' => -1) );
 
 			foreach ( $attachments as $attachment ) {
-
-				if (file_exists($attachment->guid)) {
-					unlink($attachment->guid);
-				}
-
 				$attachment->guid = str_replace( $site_url, $theme_remote_url, $attachment->guid );
 				$result['attachments'][] = $this->upload_attachment($attachment);
 			}
 
 		}
 
-		wp_die($result);
+		wp_die( json_encode($result) );
 	}
 
 	public function process_table($table) {
@@ -192,6 +191,11 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 		$tmp_pos += 9;
 		$post_date_format = substr($url, $tmp_pos, 7);
+		$upload_dir = $this->get_wp_upload_dir();
+
+		if ( file_exists( $upload_dir. substr($url, $tmp_pos) ) ) {
+			return 'File already exists: ' . $url;
+		}
 
 		$upload = wp_upload_bits( $file_name, 0, '', $post_date_format );
 
