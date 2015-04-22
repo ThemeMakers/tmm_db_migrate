@@ -30,19 +30,19 @@ add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
  * Enqueue admin scripts.
  */
 function tmm_migrate_admin_enqueue_scripts() {
-	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'));
-	?>
-	<script type="text/javascript">
-		var tmm_db_migrate_link = "<?php echo TMM_MIGRATE_URL; ?>";
-		var tmm_db_migrate_lang1 = "<?php _e('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang2 = "<?php _e('Process table:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang3 = "<?php _e('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang4 = "<?php _e('Download data zip', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang5 = "<?php _e('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang6 = "<?php _e('Import finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		var tmm_db_migrate_lang7 = "<?php _e('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN); ?>";
-	</script>
-<?php
+
+	$tmm_lang = array(
+		'prepare_finished' => __('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_table' => __('Process table:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
+		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
+		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
+		'import_finished' => __('Import finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'import_caution' => __('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
+	);
+
+	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
+	wp_localize_script('tmm_db_migrate', 'tmm_l10n', $tmm_lang);
 }
 
 add_action( 'admin_init', 'tmm_migrate_init', 999 );
