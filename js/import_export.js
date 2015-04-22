@@ -18,7 +18,7 @@ var TMM_DB_MIGRATE = function() {
 		import: function ($this) {
 			if ($this.attr('data-active') != 'true') {
 
-				if(!confirm(tmm_db_migrate_lang7)){
+				if(!confirm(tmm_l10n.import_caution)){
 					return false;
 				}
 
@@ -28,7 +28,7 @@ var TMM_DB_MIGRATE = function() {
 				};
 				jQuery.post(ajaxurl, data, function (tables_count) {
 					jQuery('#tmm_db_migrate_process_imp').empty();
-					//window.location = location.protocol + "//" + location.hostname;
+					location.reload();
 				});
 				$this.attr('data-active', true);
 			}
@@ -41,14 +41,14 @@ var TMM_DB_MIGRATE = function() {
 			};
 			jQuery.post(ajaxurl, data, function(tables) {
 				self.tables = jQuery.parseJSON(tables);
-				self.add_process_txt(tmm_db_migrate_lang1 + ' ' + self.tables.length);
+				self.add_process_txt(tmm_l10n.prepare_finished + ' ' + self.tables.length);
 				self.process_table(self.tables[0], 0);
 			});
 		},
 
 		process_table: function(table, index) {
 			if (index < self.tables.length) {
-				self.add_process_txt(tmm_db_migrate_lang2 + ' ' + table + ' ...');
+				self.add_process_txt(tmm_l10n.process_table + ' ' + table + ' ...');
 				var data = {
 					action: "tmm_process_export_data",
 					table: table
@@ -58,7 +58,7 @@ var TMM_DB_MIGRATE = function() {
 					self.process_table(self.tables[index + 1], index + 1);
 				});
 			} else {
-				self.add_process_txt(tmm_db_migrate_lang3);
+				self.add_process_txt(tmm_l10n.process_finished);
 				self.zip_tables();
 			}
 		},
@@ -68,7 +68,7 @@ var TMM_DB_MIGRATE = function() {
 				action: "tmm_zip_export_data"
 			};
 			jQuery.post(ajaxurl, data, function(zip_link) {
-				self.add_process_txt('<a href="' + zip_link + '">' + tmm_db_migrate_lang4 + '</a>');
+				self.add_process_txt('<a href="' + zip_link + '">' + tmm_l10n.download_zip + '</a>');
 			});
 		},
 

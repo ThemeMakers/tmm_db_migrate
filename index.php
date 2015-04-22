@@ -11,80 +11,65 @@
 
 define('TMM_MIGRATE_TEXTDOMAIN', 'tmm_db_migrate');
 define('TMM_MIGRATE_PATH', plugin_dir_path(__FILE__));
+define('TMM_MIGRATE_URL', plugin_dir_url(__FILE__));
 
-class TMM_MigratePlugin {
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateHelper.php';
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateExport.php';
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateImport.php';
 
-	private $export = null;
-	private $import = null;
+add_action( 'plugins_loaded', 'tmm_migrate_load_textdomain' );
+/**
+ * Load plugin textdomain.
+ */
+function tmm_migrate_load_textdomain() {
+	load_plugin_textdomain( TMM_MIGRATE_TEXTDOMAIN, false, TMM_MIGRATE_PATH . 'languages' );
+}
 
-	public function get_application_path() {
-		return plugin_dir_path(__FILE__);
-	}
+add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
+/**
+ * Enqueue admin scripts.
+ */
+function tmm_migrate_admin_enqueue_scripts() {
 
-	public static function get_application_uri() {
-		return plugin_dir_url(__FILE__);
-	}
+	$tmm_lang = array(
+		'prepare_finished' => __('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_table' => __('Process table:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
+		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
+		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
+		'import_finished' => __('Import finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'import_caution' => __('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
+	);
 
-	public function init() {
+	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
+	wp_localize_script('tmm_db_migrate', 'tmm_l10n', $tmm_lang);
+}
+
+add_action( 'admin_init', 'tmm_migrate_init', 999 );
+/**
+ * Init main functionality.
+ */
+function tmm_migrate_init() {
+	if ( current_user_can('manage_options') ) {
+		/* try to increase performance settings */
 		if(intval(ini_get('memory_limit')) < 256){
 			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
 		}
 		if(intval(ini_get('max_execution_time')) < 180){
 			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
 		}
-		load_plugin_textdomain(TMM_MIGRATE_TEXTDOMAIN, false, $this->get_application_path() . 'languages');
-		add_action('admin_notices', array($this, 'admin_notices'));
 
-		include_once $this->get_application_path() . 'classes/TMM_MigrateHelper.php';
-		include_once $this->get_application_path() . 'classes/TMM_MigrateExport.php';
-		include_once $this->get_application_path() . 'classes/TMM_MigrateImport.php';
+		$export = new TMM_MigrateExport();
+		$import = new TMM_MigrateImport();
 
-		$this->export = new TMM_MigrateExport();
-		$this->import = new TMM_MigrateImport();
-
-		//***export actions
-		add_action('wp_ajax_tmm_prepare_export_data', array($this->export, 'prepare_export_data'));
-		add_action('wp_ajax_tmm_process_export_data', array($this->export, 'process_table'));
-		add_action('wp_ajax_tmm_zip_export_data', array($this->export, 'zip_export_data'));
-		//***import actions
-		add_action('wp_ajax_tmm_import_data', array($this->import, 'import_data'));
+		/* export actions */
+		add_action('wp_ajax_tmm_prepare_export_data', array($export, 'prepare_export_data'));
+		add_action('wp_ajax_tmm_process_export_data', array($export, 'process_table'));
+		add_action('wp_ajax_tmm_zip_export_data', array($export, 'zip_export_data'));
+		/* import actions */
+		add_action('wp_ajax_tmm_import_data', array($import, 'import_data'));
 	}
-
-	public function admin_notices() {
-		$notices = "";
-		if (!is_writable($this->export->get_upload_dir())) {
-			$notices.=sprintf(__('<div class="error"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href="http://webtemplatemasters.com/tutorials/permissions/" target="_blank">the link</a> to read the instructions how to do it properly.</p></div>', TMM_MIGRATE_TEXTDOMAIN), $this->export->get_upload_dir());
-		}
-		echo $notices;
-	}
-
-	public static function admin_enqueue_scripts() {
-		wp_enqueue_script('tmm_db_migrate', self::get_application_uri() . 'js/import_export.js', array('jquery'));
-		?>
-		<script type="text/javascript">
-			var tmm_db_migrate_link = "<?php echo self::get_application_uri() ?>";
-			var tmm_db_migrate_lang1 = "<?php _e('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang2 = "<?php _e('Process table:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang3 = "<?php _e('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang4 = "<?php _e('Download data zip', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang5 = "<?php _e('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang6 = "<?php _e('Import finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN); ?>";
-			var tmm_db_migrate_lang7 = "<?php _e('Are you sure? All content will be rewritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN); ?>";
-		</script>
-		<?php
-	}
-
-	public function draw_html($view, $data = array()) {
-		@extract($data);
-		ob_start();
-		include($this->get_application_path() . '/views/' . $view . '.php');
-		return ob_get_clean();
-	}
-
 }
 
-
-if (is_admin()) {
-	add_action('init', array(new TMM_MigratePlugin(), 'init'), 999);
-}
-add_action('admin_enqueue_scripts', array('TMM_MigratePlugin', 'admin_enqueue_scripts'));
+/* TODO: remove this class */
+class TMM_MigratePlugin {}
