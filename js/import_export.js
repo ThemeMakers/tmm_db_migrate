@@ -2,10 +2,19 @@ var TMM_DB_MIGRATE = function() {
 
 	var self = {
 		tables: [],
+		attachments_count: 0,
 
 		init: function () {
+
 			jQuery('#button_prepare_import_data').click(function () {
-				self.import( jQuery(this) );
+
+				if (jQuery(this).attr('data-active') != 'true') {
+					if(confirm(tmm_l10n.import_caution)){
+						jQuery(this).attr('data-active', true);
+						self.import( jQuery(this) );
+					}
+				}
+
 				return false;
 			});
 
@@ -16,22 +25,60 @@ var TMM_DB_MIGRATE = function() {
 		},
 
 		import: function ($this) {
-			if ($this.attr('data-active') != 'true') {
 
-				if(!confirm(tmm_l10n.import_caution)){
-					return false;
-				}
+			var process_div = jQuery('#tmm_db_migrate_process_imp'),
+				process_html = '<li><div id="squaresWaveG"><div id="squaresWaveG_1" class="squaresWaveG"></div><div id="squaresWaveG_2" class="squaresWaveG"></div><div id="squaresWaveG_3" class="squaresWaveG"></div><div id="squaresWaveG_4" class="squaresWaveG"></div><div id="squaresWaveG_5" class="squaresWaveG"></div><div id="squaresWaveG_6" class="squaresWaveG"></div><div id="squaresWaveG_7" class="squaresWaveG"></div><div id="squaresWaveG_8" class="squaresWaveG"></div></div></li>';
 
-				jQuery('#tmm_db_migrate_process_imp').append('<li><div id="squaresWaveG"><div id="squaresWaveG_1" class="squaresWaveG"></div><div id="squaresWaveG_2" class="squaresWaveG"></div><div id="squaresWaveG_3" class="squaresWaveG"></div><div id="squaresWaveG_4" class="squaresWaveG"></div><div id="squaresWaveG_5" class="squaresWaveG"></div><div id="squaresWaveG_6" class="squaresWaveG"></div><div id="squaresWaveG_7" class="squaresWaveG"></div><div id="squaresWaveG_8" class="squaresWaveG"></div></div></li>');
-				var data = {
-					action: "tmm_import_data"
-				};
-				jQuery.post(ajaxurl, data, function (tables_count) {
-					jQuery('#tmm_db_migrate_process_imp').empty();
+			process_html += '<div class="import-status">' + tmm_l10n.import_started + '</div>';
+			process_div.append(process_html);
+
+			var do_backup = jQuery('#tmm_migrate_backup').length ? jQuery('#tmm_migrate_backup').val() : 1,
+				upload_attachments = jQuery('#tmm_migrate_upload_attachments').length ? jQuery('#tmm_migrate_upload_attachments').val() : 1;
+
+			var data = {
+				action: "tmm_migrate_import_content",
+				backup: do_backup
+			};
+
+			jQuery.post(ajaxurl, data, function (response) {
+				response = jQuery.parseJSON(response);
+
+				process_div.find('.import-status').text(tmm_l10n.import_finished);
+
+				if (upload_attachments != 0 && response.attachments) {
+					var i;
+					attachments_count = response.attachments.length;
+
+					for (i in response.attachments) {
+						self.process_attachment(response.attachments[i]);
+					}
+				} else {
 					location.reload();
-				});
-				$this.attr('data-active', true);
-			}
+				}
+			}).always(function() {
+				if (!upload_attachments) {
+					process_div.empty();
+					$this.attr('data-active', false);
+				}
+			});
+
+		},
+
+		process_attachment: function(url) {
+			var data = {
+				action: "tmm_migrate_import_attachment",
+				url: url
+			};
+
+			jQuery.post(ajaxurl, data, function (response) {
+				var msg = response ? response : tmm_l10n.attachment_imported + ' ' + url;
+				jQuery('#tmm_db_migrate_process_imp').find('.import-status').text( msg);
+			}).always(function() {
+				attachments_count--;
+				if (attachments_count <= 0) {
+					//location.reload();
+				}
+			});
 		},
 
 		export: function ($this) {

@@ -17,7 +17,7 @@ class TMM_MigrateHelper {
 		return $basedir . self::DIRSEP;
 	}
 	
-	/* theme options check */
+	/* theme options check TODO: check this function usage */
 	public static function is_zip_file_exists() {
 		$path = wp_upload_dir();
 		$basedir = str_replace('\\', self::DIRSEP, $path['basedir']);
@@ -44,28 +44,24 @@ class TMM_MigrateHelper {
 		return $tables;
 	}
 	
-	protected function create_upload_folder($subfolder = '', $clean = false) {
-		$path = wp_upload_dir();
-		$path = $path['basedir'];
+	protected function create_upload_folder($folder = '', $clean = false) {
+		$path = $this->get_wp_upload_dir();
 
 		if (!file_exists($path)) {
 			mkdir($path, 0775);
 		}
 
-		$path = $path . self::DIRSEP . self::folder_key . self::DIRSEP;
+		if (!$folder) {
+			$folder = self::folder_key;
+		}
+
+		$path = $path . $folder . self::DIRSEP;
 
 		if (!file_exists($path)) {
 			mkdir($path, 0775);
 		} else if ($clean) {
 			$this->delete_dir($path); //remove previous results
 			mkdir($path, 0775);
-		}
-
-		if ($subfolder) {
-			$path .= $subfolder;
-			if (!file_exists($path)) {
-				mkdir($path, 0775);
-			}
 		}
 
 		return $path;

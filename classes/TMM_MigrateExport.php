@@ -11,14 +11,14 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 	}
 
 	public function backup_data() {
-		$this->create_upload_folder('backup');
+		$this->create_upload_folder('tmm_backup');
 		$tables = $this->get_wp_tables();
 
 		foreach ( $tables as $table ) {
 			$this->process_table($table, true);
 		}
 
-		$this->zip_export_data(true);
+		@$this->zip_export_data(true);
 	}
 
 	//ajax
@@ -72,8 +72,7 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 			$path = $this->get_upload_dir();
 
 			if ($is_backup) {
-				$this->create_upload_folder('backup');
-				$path .= 'backup/';
+				$path = $this->create_upload_folder('tmm_backup');
 			}
 
 			file_put_contents( $path . $table . '.dat', $content );
@@ -136,7 +135,7 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		$zip_path = $this->get_upload_dir();
 
 		if ($is_backup) {
-			$zip_path .= 'backup/';
+			$zip_path = $uploads_path . 'tmm_backup/';
 		}
 
 		$tables = $this->get_wp_tables();
