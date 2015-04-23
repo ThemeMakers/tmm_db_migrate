@@ -179,58 +179,12 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		}
 	}
 
-	function upload_attachment( $url ) {
+	public function upload_attachment( $url ) {
 		if (!empty($_POST['url'])) {
 			$url = $_POST['url'];
 		}
 
-		$msg = '';
-		$errormsg = '';
-
-		/* create placeholder file in the upload dir */
-		$file_name = basename( $url );
-		$tmp_pos = strpos($url, '/uploads/');
-
-		if ($tmp_pos === false) {
-			$errormsg = 'wrong file path';
-		}
-
-		$tmp_pos += 9;
-		$post_date_format = substr($url, $tmp_pos, 7);
-		$upload_dir = $this->get_wp_upload_dir();
-
-		if ( file_exists( $upload_dir. substr($url, $tmp_pos) ) ) {
-			$errormsg = 'file already exists';
-		}
-
-		$upload = wp_upload_bits( $file_name, 0, '', $post_date_format );
-
-		if ( $upload['error'] ) {
-			$errormsg = $upload['error'];
-		}
-
-		if ( !wp_check_filetype( $upload['file'] ) ) {
-			$errormsg = 'invalid file type';
-		}
-
-		/* fetch the remote url and write it to the placeholder file */
-		$headers = wp_get_http( $url, $upload['file'] );
-
-		if ( !$headers || $headers['response'] != '200' ) {
-			@unlink( $upload['file'] );
-			$errormsg = 'remote server did not respond';
-		}
-
-		$filesize = @filesize( $upload['file'] );
-
-		if ( !$filesize || (isset($headers['content-length']) && $filesize != $headers['content-length']) ) {
-			//@unlink( $upload['file'] );
-			$errormsg = 'incorrect file size';
-		}
-
-		if ($errormsg) {
-			$msg = 'Failure: ' . $errormsg . ' - ' . $url;
-		}
+		$msg = $this->upload_attachment_handler($url);
 
 		if (!empty($_POST['url'])) {
 			echo ($msg);exit();
@@ -238,6 +192,51 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 			return $msg;
 		}
 
+	}
+
+	protected function upload_attachment_handler( $url ) {
+		/* create placeholder file in the upload dir */
+		$file_name = basename( $url );
+		$tmp_pos = strpos($url, '/uploads/');
+
+		if ($tmp_pos === false) {
+			return 'Failure: wrong file path - ' . $url;
+		}
+
+		$tmp_pos += 9;
+		$post_date_format = substr($url, $tmp_pos, 7);
+		$upload_dir = $this->get_wp_upload_dir();
+
+		if ( file_exists( $upload_dir. substr($url, $tmp_pos) ) ) {
+			return 'File already exists - ' . $url;
+		}
+
+		$upload = wp_upload_bits( $file_name, 0, '', $post_date_format );
+
+		if ( $upload['error'] ) {
+			return $upload['error'] . ' - ' . $url;
+		}
+
+		if ( !wp_check_filetype( $upload['file'] ) ) {
+			return 'Failure: invalid file type - ' . $url;
+		}
+
+		/* fetch the remote url and write it to the placeholder file */
+		$headers = wp_get_http( $url, $upload['file'] );
+
+		if ( !$headers || $headers['response'] != '200' ) {
+			@unlink( $upload['file'] );
+			return 'Failure: remote server did not respond - ' . $url;
+		}
+
+		$filesize = @filesize( $upload['file'] );
+
+		if ( !$filesize || (isset($headers['content-length']) && $filesize != $headers['content-length']) ) {
+			@unlink( $upload['file'] );
+			return 'Failure: incorrect file size - ' . $url;
+		}
+
+		return '';
 	}
 
 }
