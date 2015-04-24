@@ -4,7 +4,7 @@
  * Plugin URI: http://webtemplatemasters.com
  * Description: ThemeMakers WordPress DataBase Migration
  * Author: ThemeMakers
- * Version: 1.1.0
+ * Version: 2.0.0
  * Author URI: http://themeforest.net/user/ThemeMakers
  * Text Domain: tmm_db_migrate
  */
@@ -73,5 +73,35 @@ function tmm_migrate_init() {
 	}
 }
 
-/* TODO: remove this class */
-class TMM_MigratePlugin {}
+add_action( 'tmm_add_theme_options_tab', 'tmm_migrate_add_settings_tab', 999 );
+/**
+ * Add Settings tab.
+ */
+function tmm_migrate_add_settings_tab() {
+	if ( current_user_can('manage_options') ) {
+		if (class_exists('TMM_OptionsHelper')) {
+
+			$content = array();
+			$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
+
+			$content[ TMM_MIGRATE_TEXTDOMAIN ] = array(
+				'title' => '',
+				'type' => 'custom',
+				'custom_html' => TMM::draw_free_page($tmpl_path),
+				'show_title' => false
+			);
+
+			$sections = array(
+				'name' => __("Import / Export", TMM_THEME_TEXTDOMAIN),
+				'css_class' => 'shortcut-plugins',
+				'show_general_page' => true,
+				'content' => $content,
+				'child_sections' => array(),
+				'menu_icon' => 'dashicons-admin-tools'
+			);
+
+			TMM_OptionsHelper::$sections[ TMM_MIGRATE_TEXTDOMAIN ] = $sections;
+
+		}
+	}
+}
