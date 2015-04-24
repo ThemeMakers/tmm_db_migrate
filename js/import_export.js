@@ -76,7 +76,7 @@ var TMM_DB_MIGRATE = function() {
 			}).always(function() {
 				attachments_count--;
 				if (attachments_count <= 0) {
-					//location.reload();
+					location.reload();
 				}
 			});
 		},
