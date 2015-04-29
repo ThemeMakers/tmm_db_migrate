@@ -2,6 +2,8 @@
 
 class TMM_MigrateImport extends TMM_MigrateHelper {
 
+	private $saved_options = array();
+
 	public function __construct() {}
 	
 	/* handle objects before push content to eval function */
@@ -25,6 +27,18 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 			$export = new TMM_MigrateExport();
 			$export->backup_data();
 		}
+
+		/* Save general options */
+		$this->saved_options = array(
+			'blogname' => get_option('blogname'),
+			'blogdescription' => get_option('blogdescription'),
+			'admin_email' => get_option('admin_email'),
+			'auth_key' => get_option('auth_key'),
+			'auth_salt' => get_option('auth_salt'),
+			'ftp_credentials' => get_option('ftp_credentials'),
+			'db_version' => get_option('db_version'),
+			'initial_db_version' => get_option('initial_db_version'),
+		);
 
 		/* upload archive with demo data */
 		$db_upload_dir = $this->create_upload_folder();
@@ -167,11 +181,17 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 					$is_first_iter = true;
 					$data = array();
 					foreach ($row as $key => $value) {
-						if (is_array($value) OR is_object($value)) {
-							$data[$key] = serialize($value);
+
+						if (isset($this->saved_options[$key])) {
+							$data[$key] = $this->saved_options[$key];
 						} else {
-							$data[$key] = $value;
+							if (is_array($value) OR is_object($value)) {
+								$data[$key] = serialize($value);
+							} else {
+								$data[$key] = $value;
+							}
 						}
+
 					}
 				}
 				$wpdb->insert($new_table_name, $data);
