@@ -80,10 +80,19 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		/* upload attachments */
 		if (defined('TMM_THEME_TEXTDOMAIN')) {
 			$site_url = rtrim( get_site_url(), '/' );
+			$uploads_url = wp_upload_dir();
+			$uploads_url = $uploads_url['baseurl'] . '/';
 			$theme_remote_url = 'http://' . TMM_THEME_TEXTDOMAIN . '.webtemplatemasters.com';
 			$attachments = get_posts( array('post_type' => 'attachment', 'post_mime_type' => 'image, video, audio', 'numberposts' => -1) );
 
 			foreach ( $attachments as $attachment ) {
+
+				$attached_file = get_post_meta($attachment->ID, '_wp_attached_file', 1);
+				if ($attached_file && $uploads_url . $attached_file !== $attachment->guid) {
+					$attached_file = $uploads_url . $attached_file;
+					$result['attachments'][] = str_replace( $site_url, $theme_remote_url, $attached_file );
+				}
+
 				$result['attachments'][] = str_replace( $site_url, $theme_remote_url, $attachment->guid );
 			}
 
