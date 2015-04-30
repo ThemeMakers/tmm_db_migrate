@@ -9,7 +9,7 @@ var TMM_DB_MIGRATE = function() {
 			jQuery('#button_prepare_import_data').click(function () {
 
 				if (jQuery(this).attr('data-active') != 'true') {
-					if(confirm(tmm_l10n.import_caution)){
+					if(confirm(tmm_migrate_l10n.import_caution)){
 						jQuery(this).attr('data-active', true);
 						self.import( jQuery(this) );
 					}
@@ -29,7 +29,7 @@ var TMM_DB_MIGRATE = function() {
 			var process_div = jQuery('#tmm_db_migrate_process_imp'),
 				process_html = '<li><div id="squaresWaveG"><div id="squaresWaveG_1" class="squaresWaveG"></div><div id="squaresWaveG_2" class="squaresWaveG"></div><div id="squaresWaveG_3" class="squaresWaveG"></div><div id="squaresWaveG_4" class="squaresWaveG"></div><div id="squaresWaveG_5" class="squaresWaveG"></div><div id="squaresWaveG_6" class="squaresWaveG"></div><div id="squaresWaveG_7" class="squaresWaveG"></div><div id="squaresWaveG_8" class="squaresWaveG"></div></div></li>';
 
-			process_html += '<div class="import-status">' + tmm_l10n.import_started + '</div>';
+			process_html += '<div class="import-status">' + tmm_migrate_l10n.import_started + '</div>';
 			process_div.append(process_html);
 
 			var do_backup = jQuery('#tmm_migrate_backup').length ? jQuery('#tmm_migrate_backup').val() : 1,
@@ -43,7 +43,7 @@ var TMM_DB_MIGRATE = function() {
 			jQuery.post(ajaxurl, data, function (response) {
 				response = jQuery.parseJSON(response);
 
-				process_div.find('.import-status').text(tmm_l10n.import_finished);
+				process_div.find('.import-status').text(tmm_migrate_l10n.import_finished);
 
 				if (upload_attachments != 0 && response.attachments) {
 					var i;
@@ -71,7 +71,7 @@ var TMM_DB_MIGRATE = function() {
 			};
 
 			jQuery.post(ajaxurl, data, function (response) {
-				var msg = response ? response : tmm_l10n.attachment_imported + ' ' + url;
+				var msg = response ? response : tmm_migrate_l10n.attachment_imported + ' ' + url;
 				jQuery('#tmm_db_migrate_process_imp').find('.import-status').text( msg);
 			}).always(function() {
 				attachments_count--;
@@ -88,14 +88,14 @@ var TMM_DB_MIGRATE = function() {
 			};
 			jQuery.post(ajaxurl, data, function(tables) {
 				self.tables = jQuery.parseJSON(tables);
-				self.add_process_txt(tmm_l10n.prepare_finished + ' ' + self.tables.length);
+				self.add_process_txt(tmm_migrate_l10n.prepare_finished + ' ' + self.tables.length);
 				self.process_table(self.tables[0], 0);
 			});
 		},
 
 		process_table: function(table, index) {
 			if (index < self.tables.length) {
-				self.add_process_txt(tmm_l10n.process_table + ' ' + table + ' ...');
+				self.add_process_txt(tmm_migrate_l10n.process_table + ' ' + table + ' ...');
 				var data = {
 					action: "tmm_process_export_data",
 					table: table
@@ -105,7 +105,7 @@ var TMM_DB_MIGRATE = function() {
 					self.process_table(self.tables[index + 1], index + 1);
 				});
 			} else {
-				self.add_process_txt(tmm_l10n.process_finished);
+				self.add_process_txt(tmm_migrate_l10n.process_finished);
 				self.zip_tables();
 			}
 		},
@@ -115,7 +115,7 @@ var TMM_DB_MIGRATE = function() {
 				action: "tmm_zip_export_data"
 			};
 			jQuery.post(ajaxurl, data, function(zip_link) {
-				self.add_process_txt('<a href="' + zip_link + '">' + tmm_l10n.download_zip + '</a>');
+				self.add_process_txt('<a href="' + zip_link + '">' + tmm_migrate_l10n.download_zip + '</a>');
 			});
 		},
 
@@ -128,7 +128,7 @@ var TMM_DB_MIGRATE = function() {
 };
 
 jQuery(document).ready(function () {
-	tmm_db_import = new TMM_DB_MIGRATE();
+	var tmm_db_import = new TMM_DB_MIGRATE();
 	tmm_db_import.init();
 });
 

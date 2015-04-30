@@ -43,7 +43,7 @@ function tmm_migrate_admin_enqueue_scripts() {
 	);
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
-	wp_localize_script('tmm_db_migrate', 'tmm_l10n', $tmm_lang);
+	wp_localize_script('tmm_db_migrate', 'tmm_migrate_l10n', $tmm_lang);
 }
 
 add_action( 'admin_init', 'tmm_migrate_init', 999 );
@@ -92,7 +92,7 @@ function tmm_migrate_add_settings_tab() {
 			);
 
 			$sections = array(
-				'name' => __("Import / Export", TMM_THEME_TEXTDOMAIN),
+				'name' => __("Import / Export", TMM_MIGRATE_TEXTDOMAIN),
 				'css_class' => 'shortcut-plugins',
 				'show_general_page' => true,
 				'content' => $content,
