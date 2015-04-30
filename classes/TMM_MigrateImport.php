@@ -176,20 +176,20 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		
 		if (!empty($table_data) AND is_array($table_data)) {
 			foreach ($table_data as $row) {
-				$data_string = "";
+
 				if (!empty($row)) {
-					$is_first_iter = true;
 					$data = array();
+
+					if (isset($row['option_name']) && isset($this->saved_options[ $row['option_name'] ])) {
+						$row['option_value'] = $this->saved_options[ $row['option_name'] ];
+					}
+
 					foreach ($row as $key => $value) {
 
-						if (isset($this->saved_options[$key])) {
-							$data[$key] = $this->saved_options[$key];
+						if (is_array($value) OR is_object($value)) {
+							$data[$key] = serialize($value);
 						} else {
-							if (is_array($value) OR is_object($value)) {
-								$data[$key] = serialize($value);
-							} else {
-								$data[$key] = $value;
-							}
+							$data[$key] = $value;
 						}
 
 					}
@@ -274,14 +274,14 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 	 * @return bool|string False on failure and string of headers if HEAD request.
 	 */
 	public function tmm_get_http( $url, $file_path = false, $red = 1 ) {
-		@set_time_limit( 120 );//increased time_limit
+		@set_time_limit( 180 );//increased time_limit
 
 		if ( $red > 5 )
 			return false;
 
 		$options = array();
 		$options['redirection'] = 5;
-		$options['timeout'] = 120;//increased timeout
+		$options['timeout'] = 180;//increased timeout
 
 		if ( false == $file_path )
 			$options['method'] = 'HEAD';
