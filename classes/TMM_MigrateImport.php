@@ -3,6 +3,7 @@
 class TMM_MigrateImport extends TMM_MigrateHelper {
 
 	private $saved_options = array();
+	private $demo_user_id = 0;
 
 	public function __construct() {}
 	
@@ -28,7 +29,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 			$export->backup_data();
 		}
 
-		/* Save general options */
+		/* save general options */
 		$this->saved_options = array(
 			'blogname' => get_option('blogname'),
 			'blogdescription' => get_option('blogdescription'),
@@ -39,6 +40,15 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 			'db_version' => get_option('db_version'),
 			'initial_db_version' => get_option('initial_db_version'),
 		);
+
+		/* create demo user */
+		$demo_user_id = username_exists('demo');
+		if ($demo_user_id) {
+			$this->demo_user_id = $demo_user_id;
+		} else {
+			$this->demo_user_id = wp_create_user('demo', 'demo', 'demouser@webtemplatemasters.com');
+			wp_update_user( array( 'ID' => $this->demo_user_id, 'display_name' => 'Demo' ) );
+		}
 
 		/* upload archive with demo data */
 		$db_upload_dir = $this->create_upload_folder();
@@ -191,6 +201,10 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 					if (isset($row['option_name']) && isset($this->saved_options[ $row['option_name'] ])) {
 						$row['option_value'] = $this->saved_options[ $row['option_name'] ];
+					}
+
+					if (isset($row['post_author'])) {
+						$row['post_author'] = $this->demo_user_id;
 					}
 
 					foreach ($row as $key => $value) {
