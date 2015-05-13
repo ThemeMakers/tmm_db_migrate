@@ -24,7 +24,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		);
 
 		/* backup database tables */
-		if ( (bool) $_POST['backup']) {
+		if ( (bool) $_POST['backup'] ) {
 			$export = new TMM_MigrateExport();
 			$export->backup_data();
 		}
@@ -88,11 +88,9 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		}
 
 		/* upload attachments */
-		if (defined('TMM_THEME_TEXTDOMAIN')) {
-			$site_url = rtrim( get_site_url(), '/' );
+		if ( (bool) $_POST['upload_attachments'] ) {
 			$uploads_url = wp_upload_dir();
 			$uploads_url = $uploads_url['baseurl'] . '/';
-			$theme_remote_url = 'http://' . TMM_THEME_TEXTDOMAIN . '.webtemplatemasters.com';
 			$attachments = get_posts( array('post_type' => 'attachment', 'post_mime_type' => 'image, video, audio', 'numberposts' => -1) );
 
 			foreach ( $attachments as $attachment ) {
@@ -100,10 +98,10 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 				$attached_file = get_post_meta($attachment->ID, '_wp_attached_file', 1);
 				if ($attached_file && $uploads_url . $attached_file !== $attachment->guid) {
 					$attached_file = $uploads_url . $attached_file;
-					$result['attachments'][] = str_replace( $site_url, $theme_remote_url, $attached_file );
+					$result['attachments'][] = str_replace( $uploads_url, TMM_MIGRATE_URL . '/demo_data/uploads/', $attached_file );
 				}
 
-				$result['attachments'][] = str_replace( $site_url, $theme_remote_url, $attachment->guid );
+				$result['attachments'][] = str_replace( $uploads_url, TMM_MIGRATE_URL . '/demo_data/uploads/', $attachment->guid );
 			}
 
 		}
@@ -243,7 +241,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		$tmp_pos = strpos($url, '/uploads/');
 
 		if ($tmp_pos === false) {
-			return 'Failure: wrong file path - ' . $url;
+			return 'Failure: wrong file path - ' . $file_name;
 		}
 
 		$tmp_pos += 9;
@@ -251,17 +249,17 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		$upload_dir = $this->get_wp_upload_dir();
 
 		if ( file_exists( $upload_dir. substr($url, $tmp_pos) ) ) {
-			return 'File already exists - ' . $url;
+			return 'File already exists - ' . $file_name;
 		}
 
 		$upload = wp_upload_bits( $file_name, 0, '', $post_date_format );
 
 		if ( $upload['error'] ) {
-			return $upload['error'] . ' - ' . $url;
+			return $upload['error'] . ' - ' . $file_name;
 		}
 
 		if ( !wp_check_filetype( $upload['file'] ) ) {
-			return 'Failure: invalid file type - ' . $url;
+			return 'Failure: invalid file type - ' . $file_name;
 		}
 
 		/* fetch the remote url and write it to the placeholder file */
@@ -269,17 +267,17 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 		if ( !$headers || $headers['response'] != '200' ) {
 			@unlink( $upload['file'] );
-			return 'Failure: remote server did not respond - ' . $url;
+			return 'Failure: remote server did not respond - ' . $file_name;
 		}
 
 		$filesize = @filesize( $upload['file'] );
 
 		if ( !$filesize || (isset($headers['content-length']) && $filesize != $headers['content-length']) ) {
 			@unlink( $upload['file'] );
-			return 'Failure: incorrect file size - ' . $url;
+			return 'Failure: incorrect file size - ' . $file_name;
 		}
 
-		return '';
+		return 'File imported: ' . $file_name;
 	}
 
 	/**

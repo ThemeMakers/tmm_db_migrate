@@ -37,9 +37,8 @@ function tmm_migrate_admin_enqueue_scripts() {
 		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
 		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
 		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
-		'import_finished' => __('Content imported', TMM_MIGRATE_TEXTDOMAIN),
+		'import_finished' => __('Content imported!', TMM_MIGRATE_TEXTDOMAIN),
 		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
-		'attachment_imported' => __('File imported:', TMM_MIGRATE_TEXTDOMAIN),
 	);
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);

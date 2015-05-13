@@ -37,7 +37,8 @@ var TMM_DB_MIGRATE = function() {
 
 			var data = {
 				action: "tmm_migrate_import_content",
-				backup: do_backup
+				backup: do_backup,
+				upload_attachments: upload_attachments
 			};
 
 			jQuery.post(ajaxurl, data, function (response) {
@@ -71,7 +72,7 @@ var TMM_DB_MIGRATE = function() {
 			};
 
 			jQuery.post(ajaxurl, data, function (response) {
-				var msg = response ? response : tmm_migrate_l10n.attachment_imported + ' ' + url;
+				var msg = response ? response : '';
 				jQuery('#tmm_db_migrate_process_imp').find('.import-status').text( msg);
 			}).always(function() {
 				attachments_count--;
