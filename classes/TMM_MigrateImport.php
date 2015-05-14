@@ -232,7 +232,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 		if ($is_filesystem) {
 			$upload_dir = $this->get_wp_upload_dir();
-			$is_content_copied = copy_dir( TMM_MIGRATE_PATH . 'demo_data/uploads/', $upload_dir);
+			$is_content_copied = copy_dir( TMM_MIGRATE_PATH . 'demo_data/uploads/', $upload_dir, array('.DS_Store', 'thumbs.db'));
 
 			if ($is_content_copied) {
 				return 'Files imported!';
@@ -274,6 +274,10 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		$file_name = basename( $path );
 		$upload_dir = $this->get_wp_upload_dir();
 		$is_filesystem = WP_Filesystem();
+
+		if ( file_exists( $upload_dir. $path ) ) {
+			return 'File already exists - ' . $file_name;
+		}
 
 		if ($is_filesystem) {
 			global $wp_filesystem;
