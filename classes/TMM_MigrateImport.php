@@ -89,19 +89,26 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 		/* upload attachments */
 		if ( (bool) $_POST['upload_attachments'] ) {
-			$uploads_url = wp_upload_dir();
-			$uploads_url = $uploads_url['baseurl'] . '/';
-			$attachments = get_posts( array('post_type' => 'attachment', 'post_mime_type' => 'image, video, audio', 'numberposts' => -1) );
 
-			foreach ( $attachments as $attachment ) {
+			if (TMM_MIGRATE_UPLOAD_ATTACHMENTS_PACK) {
+				/* copy attachments folders with files to uploads folder */
+				$this->upload_attachments_pack();
+			} else {
+				/* upload each attachment by ajax */
+				$uploads_url = wp_upload_dir();
+				$uploads_url = $uploads_url['baseurl'] . '/';
+				$attachments = get_posts( array('post_type' => 'attachment', 'post_mime_type' => 'image, video, audio', 'numberposts' => -1) );
 
-				$attached_file = get_post_meta($attachment->ID, '_wp_attached_file', 1);
-				if ($attached_file && $uploads_url . $attached_file !== $attachment->guid) {
-					$attached_file = $uploads_url . $attached_file;
-					$result['attachments'][] = str_replace( $uploads_url, TMM_MIGRATE_URL . '/demo_data/uploads/', $attached_file );
+				foreach ( $attachments as $attachment ) {
+
+					$attached_file = get_post_meta($attachment->ID, '_wp_attached_file', 1);
+					if ($attached_file && $uploads_url . $attached_file !== $attachment->guid) {
+						$attached_file = $uploads_url . $attached_file;
+						$result['attachments'][] = str_replace( $uploads_url, '', $attached_file );
+					}
+
+					$result['attachments'][] = str_replace( $uploads_url, '', $attachment->guid );
 				}
-
-				$result['attachments'][] = str_replace( $uploads_url, TMM_MIGRATE_URL . '/demo_data/uploads/', $attachment->guid );
 			}
 
 		}
@@ -220,14 +227,36 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		}
 	}
 
-	public function upload_attachment( $url ) {
-		if (!empty($_POST['url'])) {
-			$url = $_POST['url'];
+	public function upload_attachments_pack() {
+		$is_filesystem = WP_Filesystem();
+
+		if ($is_filesystem) {
+			$upload_dir = $this->get_wp_upload_dir();
+			$is_content_copied = copy_dir( TMM_MIGRATE_PATH . 'demo_data/uploads/', $upload_dir);
+
+			if ($is_content_copied) {
+				return 'Files imported!';
+			}
+
 		}
 
-		$msg = $this->upload_attachment_handler($url);
+		return 'Files uploading error!';
+	}
 
-		if (!empty($_POST['url'])) {
+	public function upload_attachment( $attachment ) {
+		if (!empty($_POST['attachment'])) {
+			$attachment = $_POST['attachment'];
+		}
+
+		if (TMM_MIGRATE_UPLOAD_ATTACHMENT_BY_HTTP) {
+			/* upload file by HTTP request */
+			$msg = $this->upload_attachment_handler($attachment);
+		} else {
+			/* copy file by WP_Filesystem */
+			$msg = $this->copy_attachment_handler($attachment);
+		}
+
+		if (!empty($_POST['attachment'])) {
 			echo ($msg);exit();
 		} else {
 			return $msg;
@@ -235,23 +264,51 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 	}
 
-	protected function upload_attachment_handler( $url ) {
-		/* create placeholder file in the upload dir */
-		$file_name = basename( $url );
-		$tmp_pos = strpos($url, '/uploads/');
+	/**
+	 * Copy file to uploads folder.
+	 * @param $path
+	 *
+	 * @return string
+	 */
+	protected function copy_attachment_handler( $path ) {
+		$file_name = basename( $path );
+		$upload_dir = $this->get_wp_upload_dir();
+		$is_filesystem = WP_Filesystem();
 
-		if ($tmp_pos === false) {
-			return 'Failure: wrong file path - ' . $file_name;
+		if ($is_filesystem) {
+			global $wp_filesystem;
+			$dirs = explode('/', str_replace($file_name, '', $path) );
+
+			$wp_filesystem->mkdir( $upload_dir . $dirs[0] );
+			$wp_filesystem->mkdir( $upload_dir . $dirs[0] . '/' . $dirs[1] );
+
+			$is_content_copied = $wp_filesystem->copy( TMM_MIGRATE_PATH . 'demo_data/uploads/' . $path, $upload_dir . $path);
+
+			if ($is_content_copied) {
+				return 'File imported: ' . $file_name;
+			}
+
 		}
 
-		$tmp_pos += 9;
-		$post_date_format = substr($url, $tmp_pos, 7);
+		return 'File uploading error - ' . $file_name;
+	}
+
+	/**
+	 * Upload file by HTTP request. This function not uses, use copy_attachment_handler instead.
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	protected function upload_attachment_handler( $url ) {
+		$file_name = basename( $url );
+		$post_date_format = substr($url, 0, 7);
 		$upload_dir = $this->get_wp_upload_dir();
 
-		if ( file_exists( $upload_dir. substr($url, $tmp_pos) ) ) {
+		if ( file_exists( $upload_dir. $url ) ) {
 			return 'File already exists - ' . $file_name;
 		}
 
+		/* create placeholder file in the upload dir */
 		$upload = wp_upload_bits( $file_name, 0, '', $post_date_format );
 
 		if ( $upload['error'] ) {
@@ -263,6 +320,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		}
 
 		/* fetch the remote url and write it to the placeholder file */
+		$url = TMM_MIGRATE_URL . '/demo_data/uploads/' . $url;
 		$headers = $this->tmm_get_http( $url, $upload['file'] );
 
 		if ( !$headers || $headers['response'] != '200' ) {
@@ -281,7 +339,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 	}
 
 	/**
-	 * Perform a HTTP HEAD or GET request.
+	 * Perform a HTTP HEAD or GET request. (wp_get_http)
 	 *
 	 * If $file_path is a writable filename, this will do a GET request and write
 	 * the file to that path.

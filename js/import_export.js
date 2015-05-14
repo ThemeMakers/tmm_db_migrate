@@ -46,7 +46,7 @@ var TMM_DB_MIGRATE = function() {
 
 				process_div.find('.import-status').text(tmm_migrate_l10n.import_finished);
 
-				if (upload_attachments != 0 && response.attachments) {
+				if (upload_attachments != 0 && response.attachments && response.attachments.length > 0) {
 					var i;
 					attachments_count = response.attachments.length;
 
@@ -54,6 +54,7 @@ var TMM_DB_MIGRATE = function() {
 						self.process_attachment(response.attachments[i]);
 					}
 				} else {
+					alert(tmm_migrate_l10n.import_finished);
 					location.reload();
 				}
 			}).always(function() {
@@ -65,10 +66,10 @@ var TMM_DB_MIGRATE = function() {
 
 		},
 
-		process_attachment: function(url) {
+		process_attachment: function(attachment) {
 			var data = {
 				action: "tmm_migrate_import_attachment",
-				url: url
+				attachment: attachment
 			};
 
 			jQuery.post(ajaxurl, data, function (response) {
@@ -77,12 +78,13 @@ var TMM_DB_MIGRATE = function() {
 			}).always(function() {
 				attachments_count--;
 				if (attachments_count <= 0) {
+					alert(tmm_migrate_l10n.import_finished);
 					location.reload();
 				}
 			});
 		},
 
-		export: function ($this) {
+		export: function () {
 			jQuery('#tmm_db_migrate_process').empty();
 			var data = {
 				action: "tmm_prepare_export_data"
