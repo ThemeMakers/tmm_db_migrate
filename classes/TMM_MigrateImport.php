@@ -48,6 +48,13 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		} else {
 			$this->demo_user_id = wp_create_user('demo', 'demo', 'demouser@webtemplatemasters.com');
 			wp_update_user( array( 'ID' => $this->demo_user_id, 'display_name' => 'Demo' ) );
+			wp_update_user( array( 'ID' => $this->demo_user_id, 'user_url' => get_user_option('user_url', 1) ) );
+			update_user_meta($this->demo_user_id, 'description', get_user_meta(1, 'description', 1));
+			update_user_meta($this->demo_user_id, 'twitter', get_user_meta(1, 'twitter', 1));
+			update_user_meta($this->demo_user_id, 'facebook', get_user_meta(1, 'facebook', 1));
+			update_user_meta($this->demo_user_id, 'pinteres', get_user_meta(1, 'pinteres', 1));
+			update_user_meta($this->demo_user_id, 'rss', get_user_meta(1, 'rss', 1));
+			update_user_meta($this->demo_user_id, 'gplus', get_user_meta(1, 'gplus', 1));
 		}
 
 		/* upload archive with demo data */
