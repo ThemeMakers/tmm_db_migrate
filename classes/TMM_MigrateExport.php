@@ -153,14 +153,14 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		if (!empty($tables)) {
 			foreach ($tables as $table) {
 				$file = $table . '.dat';
-				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $uploads_path);
+				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $zip_path);
 				$file = $table . '.dsc';
-				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $uploads_path);
+				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $zip_path);
 			}
 		}
 
-		$zip->add($zip_path . 'wpdb.prfx', PCLZIP_OPT_REMOVE_PATH, $uploads_path);
-		$zip->create();
+		$zip->add($zip_path . 'wpdb.prfx', PCLZIP_OPT_REMOVE_PATH, $zip_path);
+		@$zip->create();
 
 		reset_mbstring_encoding();
 		
