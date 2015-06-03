@@ -141,15 +141,19 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		$tables = $this->get_wp_tables();
 		$zip_filename = $zip_path . self::folder_key . '.zip';
 
+		if (!file_exists($zip_filename)) {
+			touch($zip_filename);
+		}
+
 		global $wpdb;
 		
 		file_put_contents($zip_path . 'wpdb.prfx', $wpdb->prefix);
-		
+
 		mbstring_binary_safe_encoding();
 				
 		if(class_exists('ZipArchive')){
 			$zip = new ZipArchive();
-			
+
 			if (!empty($tables)) {
 				$zip->open($zip_filename, ZipArchive::OVERWRITE);
 				foreach ($tables as $table) {
