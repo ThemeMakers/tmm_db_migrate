@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ThemeMakers DB Migrate\n"
-"POT-Creation-Date: 2015-06-01 18:51+0100\n"
-"PO-Revision-Date: 2015-06-01 18:51+0100\n"
+"POT-Creation-Date: 2015-06-15 20:45+0100\n"
+"PO-Revision-Date: 2015-06-15 20:46+0100\n"
 "Last-Translator: ThemeMakers Team <support@webtemplatemasters.com>\n"
 "Language-Team: ThemeMakers Team <support@webtemplatemasters.com>\n"
 "Language: en_US\n"
@@ -93,29 +93,29 @@ msgstr ""
 msgid "Import Attachments"
 msgstr ""
 
-#: views/theme_options_tab.php:46
+#: views/theme_options_tab.php:47
 msgid "Download and import file attachments (images, videos, audios)"
 msgstr ""
 
-#: views/theme_options_tab.php:52
+#: views/theme_options_tab.php:53
 msgid "Backup DB"
 msgstr ""
 
-#: views/theme_options_tab.php:57
+#: views/theme_options_tab.php:59
 msgid "Backup your database content before importing. Placed in "
 msgstr ""
 
-#: views/theme_options_tab.php:66 views/theme_options_tab.php:72
+#: views/theme_options_tab.php:68 views/theme_options_tab.php:74
 msgid "Export Data"
 msgstr ""
 
-#: views/theme_options_tab.php:80
+#: views/theme_options_tab.php:82
 msgid ""
 "In Case you need to transfer your website to another domain the easiest way "
 "to export all the data is here."
 msgstr ""
 
-#: views/theme_options_tab.php:81
+#: views/theme_options_tab.php:83
 msgid "Video guide on how to do that properly is coming soon..."
 msgstr ""
 
