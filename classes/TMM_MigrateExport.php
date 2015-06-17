@@ -144,41 +144,24 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		global $wpdb;
 		
 		file_put_contents($zip_path . 'wpdb.prfx', $wpdb->prefix);
-		
+
 		mbstring_binary_safe_encoding();
 				
-		if(class_exists('ZipArchive')){
-			$zip = new ZipArchive();
-			
-			if (!empty($tables)) {
-				$zip->open($zip_filename, ZipArchive::OVERWRITE);
-				foreach ($tables as $table) {
-					$file = $table . '.dat';
-					$zip->addFile($zip_path . $file, $file);
-					$file = $table . '.dsc';
-					$zip->addFile($zip_path . $file, $file);
-				}
-			}
-			
-			$zip->addFile($zip_path . 'wpdb.prfx', 'wpdb.prfx');
-			$zip->close();
-		}else{
-			require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
-			$zip = new PclZip($zip_filename);
+		require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+		$zip = new PclZip($zip_filename);
 
-			if (!empty($tables)) {
-				foreach ($tables as $table) {
-					$file = $table . '.dat';
-					$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $uploads_path);
-					$file = $table . '.dsc';
-					$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $uploads_path);
-				}
+		if (!empty($tables)) {
+			foreach ($tables as $table) {
+				$file = $table . '.dat';
+				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $zip_path);
+				$file = $table . '.dsc';
+				$zip->add($zip_path . $file, PCLZIP_OPT_REMOVE_PATH, $zip_path);
 			}
-			
-			$zip->add($zip_path . 'wpdb.prfx', PCLZIP_OPT_REMOVE_PATH, $uploads_path);
-			$zip->create();
 		}
-		
+
+		$zip->add($zip_path . 'wpdb.prfx', PCLZIP_OPT_REMOVE_PATH, $zip_path);
+		@$zip->create();
+
 		reset_mbstring_encoding();
 		
 		foreach ($tables as $table) {
