@@ -46,7 +46,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		if ($demo_user_id) {
 			$this->demo_user_id = $demo_user_id;
 		} else {
-			$this->demo_user_id = wp_create_user('demo', 'demo', 'demouser@webtemplatemasters.com');
+			$this->demo_user_id = wp_create_user('demo', 'demo', 'demo@webtemplatemasters.com');
 			wp_update_user( array( 'ID' => $this->demo_user_id, 'display_name' => 'Demo' ) );
 			wp_update_user( array( 'ID' => $this->demo_user_id, 'user_url' => get_user_option('user_url', 1) ) );
 			update_user_meta($this->demo_user_id, 'description', get_user_meta(1, 'description', 1));
