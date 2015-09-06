@@ -120,6 +120,13 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 		}
 
+		/* update Permalink Settings */
+		global $wp_rewrite;
+		$wp_rewrite->set_permalink_structure( '/%postname%/' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/misc.php' );
+		flush_rewrite_rules();
+
 		$this->delete_dir($db_upload_dir);
 		wp_die( json_encode($result) );
 	}
