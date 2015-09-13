@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ThemeMakers DB Migrate\n"
+"POT-Creation-Date: 2015-07-03 22:44+0200\n"
+"PO-Revision-Date: 2015-07-03 22:44+0200\n"
+"Last-Translator: ThemeMakers Team <support@webtemplatemasters.com>\n"
+"Language-Team: ThemeMakers Team <support@webtemplatemasters.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: index.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: index.php:57
+#, php-format
+msgid ""
+"<div class=\"error\"><p>To make plugin ThemeMakers DB Migrate work correctly "
+"you need to set the permissions 0775 for <b>%s</b> folder or create this "
+"one. Follow <a href=\"http://webtemplatemasters.com/tutorials/permissions/\" "
+"target=\"_blank\">the link</a> to read the instructions how to do it "
+"properly.</p></div>"
+msgstr ""
+
+#: index.php:71
+msgid "Prepare finished. Count of tables:"
+msgstr ""
+
+#: index.php:72
+msgid "Process table:"
+msgstr ""
+
+#: index.php:73
+msgid "Process Finishing ..."
+msgstr ""
+
+#: index.php:74
+msgid "Download data zip"
+msgstr ""
+
+#: index.php:75
+msgid "Import started. Please wait ..."
+msgstr ""
+
+#: index.php:76
+msgid "Import finished. Count of tables:"
+msgstr ""
+
+#: index.php:77
+msgid ""
+"Are you sure? All content will be rewritten by the demo content if you "
+"confirm!"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "ThemeMakers DB Migrate"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://webtemplatemasters.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "ThemeMakers WordPress DataBase Migration (CarDealer+)"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ThemeMakers"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://themeforest.net/user/ThemeMakers"
+msgstr ""
