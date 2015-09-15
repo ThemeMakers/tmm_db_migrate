@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: tmm_db_migrate/index.php:1
+msgid "<div class=\"error\"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href=\"http://webtemplatemasters.com/tutorials/permissions/\" target=\"_blank\">the link</a> to read the instructions how to do it properly.</p></div>"
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:68
+msgid "Download data zip"
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:70
+msgid "Import finished. Count of tables:"
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:69
+msgid "Import started. Please wait ..."
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:65
+msgid "Prepare finished. Count of tables:"
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:67
+msgid "Process Finishing ..."
+msgstr ""
+
+#. Text in echo
+#: tmm_db_migrate/index.php:66
+msgid "Process table:"
+msgstr ""
