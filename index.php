@@ -106,3 +106,8 @@ function tmm_migrate_add_settings_tab() {
 		}
 	}
 }
+
+/**
+ * Load Cardealer module
+ */
+include_once TMM_MIGRATE_PATH . 'cardealer/index.php';
