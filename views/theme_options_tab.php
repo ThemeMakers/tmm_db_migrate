@@ -1,174 +1,4 @@
 <?php if (!defined('ABSPATH')) die('No direct access allowed'); ?>
-<style type="text/css">
-	#fountainTextG{
-		width:190px;
-		margin:auto;
-	}
-
-	.fountainTextG{
-		color:rgb(0,0,0);
-		font-family:Arial;
-		font-size:42px;
-		text-decoration:none;
-		font-weight:normal;
-		font-style:normal;
-		float:left;
-		animation-name:bounce_fountainTextG;
-		-o-animation-name:bounce_fountainTextG;
-		-ms-animation-name:bounce_fountainTextG;
-		-webkit-animation-name:bounce_fountainTextG;
-		-moz-animation-name:bounce_fountainTextG;
-		animation-duration:2.09s;
-		-o-animation-duration:2.09s;
-		-ms-animation-duration:2.09s;
-		-webkit-animation-duration:2.09s;
-		-moz-animation-duration:2.09s;
-		animation-iteration-count:infinite;
-		-o-animation-iteration-count:infinite;
-		-ms-animation-iteration-count:infinite;
-		-webkit-animation-iteration-count:infinite;
-		-moz-animation-iteration-count:infinite;
-		animation-direction:normal;
-		-o-animation-direction:normal;
-		-ms-animation-direction:normal;
-		-webkit-animation-direction:normal;
-		-moz-animation-direction:normal;
-		transform:scale(.5);
-		-o-transform:scale(.5);
-		-ms-transform:scale(.5);
-		-webkit-transform:scale(.5);
-		-moz-transform:scale(.5);
-	}#fountainTextG_1{
-		 animation-delay:0.75s;
-		 -o-animation-delay:0.75s;
-		 -ms-animation-delay:0.75s;
-		 -webkit-animation-delay:0.75s;
-		 -moz-animation-delay:0.75s;
-	 }
-	#fountainTextG_2{
-		animation-delay:0.9s;
-		-o-animation-delay:0.9s;
-		-ms-animation-delay:0.9s;
-		-webkit-animation-delay:0.9s;
-		-moz-animation-delay:0.9s;
-	}
-	#fountainTextG_3{
-		animation-delay:1.05s;
-		-o-animation-delay:1.05s;
-		-ms-animation-delay:1.05s;
-		-webkit-animation-delay:1.05s;
-		-moz-animation-delay:1.05s;
-	}
-	#fountainTextG_4{
-		animation-delay:1.2s;
-		-o-animation-delay:1.2s;
-		-ms-animation-delay:1.2s;
-		-webkit-animation-delay:1.2s;
-		-moz-animation-delay:1.2s;
-	}
-	#fountainTextG_5{
-		animation-delay:1.35s;
-		-o-animation-delay:1.35s;
-		-ms-animation-delay:1.35s;
-		-webkit-animation-delay:1.35s;
-		-moz-animation-delay:1.35s;
-	}
-	#fountainTextG_6{
-		animation-delay:1.5s;
-		-o-animation-delay:1.5s;
-		-ms-animation-delay:1.5s;
-		-webkit-animation-delay:1.5s;
-		-moz-animation-delay:1.5s;
-	}
-	#fountainTextG_7{
-		animation-delay:1.64s;
-		-o-animation-delay:1.64s;
-		-ms-animation-delay:1.64s;
-		-webkit-animation-delay:1.64s;
-		-moz-animation-delay:1.64s;
-	}
-	#fountainTextG_8{
-		animation-delay:1.79s;
-		-o-animation-delay:1.79s;
-		-ms-animation-delay:1.79s;
-		-webkit-animation-delay:1.79s;
-		-moz-animation-delay:1.79s;
-	}
-	#fountainTextG_9{
-		animation-delay:1.94s;
-		-o-animation-delay:1.94s;
-		-ms-animation-delay:1.94s;
-		-webkit-animation-delay:1.94s;
-		-moz-animation-delay:1.94s;
-	}
-	#fountainTextG_10{
-		animation-delay:2.09s;
-		-o-animation-delay:2.09s;
-		-ms-animation-delay:2.09s;
-		-webkit-animation-delay:2.09s;
-		-moz-animation-delay:2.09s;
-	}
-
-	@keyframes bounce_fountainTextG{
-		0%{
-			transform:scale(1);
-			color:rgb(0,0,0);
-		}
-
-		100%{
-			transform:scale(.5);
-			color:rgb(255,255,255);
-		}
-	}
-
-	@-o-keyframes bounce_fountainTextG{
-		0%{
-			-o-transform:scale(1);
-			color:rgb(0,0,0);
-		}
-
-		100%{
-			-o-transform:scale(.5);
-			color:rgb(255,255,255);
-		}
-	}
-
-	@-ms-keyframes bounce_fountainTextG{
-		0%{
-			-ms-transform:scale(1);
-			color:rgb(0,0,0);
-		}
-
-		100%{
-			-ms-transform:scale(.5);
-			color:rgb(255,255,255);
-		}
-	}
-
-	@-webkit-keyframes bounce_fountainTextG{
-		0%{
-			-webkit-transform:scale(1);
-			color:rgb(0,0,0);
-		}
-
-		100%{
-			-webkit-transform:scale(.5);
-			color:rgb(255,255,255);
-		}
-	}
-
-	@-moz-keyframes bounce_fountainTextG{
-		0%{
-			-moz-transform:scale(1);
-			color:rgb(0,0,0);
-		}
-
-		100%{
-			-moz-transform:scale(.5);
-			color:rgb(255,255,255);
-		}
-	}
-</style>
 
 <h2 class="section-title"><?php _e('Demo Data Installation', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
 
@@ -176,22 +6,8 @@
 
 	<div class="controls alternative">
 
-		<div class="option">
-			<input  id="demodata" type="radio" class="showhide" data-show-hide="demo_data" name="install_data" value="0" checked="checked" />
-			<label for="demodata"><span></span><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></label>
-			<input  id="carproducers" type="radio" class="showhide" data-show-hide="carproducers_data" name="install_data" value="1" />
-			<label for="carproducers"><span></span><?php _e('Import Carproducers', TMM_MIGRATE_TEXTDOMAIN); ?></label>
-		</div>
+		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
 
-		<ul  class="show-hide-items">
-
-			<li class="demo_data">
-				<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
-			</li>
-			<li class="carproducers_data" style="display:none;">
-				<a href="#" class="button button-primary button-large" id="button_import_carproducers"><?php _e('Import Carproducers', TMM_MIGRATE_TEXTDOMAIN); ?></a>
-			</li>
-		</ul>
 	</div>
 
 	<div class="explain alternative">
@@ -216,39 +32,33 @@
 
 	</div>
 
-	</div>
+</div>
 
 
-<ul class="show-hide-items">
 
-	<li class="demo_data">
+<?php
+TMM_OptionsHelper::draw_theme_option(array(
+	'title' => __('Import Attachments', TMM_MIGRATE_TEXTDOMAIN),
+	'type' => 'checkbox',
+	'name' => 'tmm_migrate_upload_attachments',
+	'default_value' => 1,
+	'value' => 1,
+	'css_class' => '',
+	'description' => __('Download and import file attachments (images, videos, audios)', TMM_MIGRATE_TEXTDOMAIN)
+));
+?>
 
-	<?php
-	TMM_OptionsHelper::draw_theme_option(array(
-		'title' => __('Import Attachments', TMM_MIGRATE_TEXTDOMAIN),
-		'type' => 'checkbox',
-		'name' => 'tmm_migrate_upload_attachments',
-		'default_value' => 1,
-		'value' => 1,
-		'css_class' => '',
-		'description' => __('Download and import file attachments (images, videos, audios)', TMM_MIGRATE_TEXTDOMAIN)
-	));
-	?>
-
-	<?php
-	TMM_OptionsHelper::draw_theme_option(array(
-		'title' => __('Backup DB', TMM_MIGRATE_TEXTDOMAIN),
-		'type' => 'checkbox',
-		'name' => 'tmm_migrate_backup',
-		'default_value' => 1,
-		'value' => 1,
-		'css_class' => '',
-		'description' => __('Backup your database content before importing. Placed in ', TMM_MIGRATE_TEXTDOMAIN) . "'/uploads/tmm_backup/'"
-	));
-	?>
-
-	</li>
-</ul>
+<?php
+TMM_OptionsHelper::draw_theme_option(array(
+	'title' => __('Backup DB', TMM_MIGRATE_TEXTDOMAIN),
+	'type' => 'checkbox',
+	'name' => 'tmm_migrate_backup',
+	'default_value' => 1,
+	'value' => 1,
+	'css_class' => '',
+	'description' => __('Backup your database content before importing. Placed in ', TMM_MIGRATE_TEXTDOMAIN) . "'/uploads/tmm_backup/'"
+));
+?>
 
 <ul id="tmm_db_migrate_process_imp"></ul>
 
@@ -275,16 +85,3 @@
 	</div>
 
 </div>
-
-<hr>
-
-<h2><?php _e('Import Locations', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
-<?php
-TMM_OptionsHelper::draw_theme_option(array(
-	'name' => 'locations_zip',
-	'type' => 'upload_zip',
-	'default_value' => '',
-	'description' => __('Only zip files.<br> While importing big countries you need to login to your Cpanel and increase the server waiting time to 300 sec (max_execution_time in PHP settings) and increase the  memory_limit to  128M as well.', TMM_MIGRATE_TEXTDOMAIN),
-	'id' => 'upload_locations',
-));
-?>
