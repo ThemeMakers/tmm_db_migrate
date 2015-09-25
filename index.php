@@ -1,115 +1,113 @@
 <?php
 /*
-  Plugin Name: ThemeMakers DB Migrate
-  Plugin URI: http://webtemplatemasters.com
-  Description: ThemeMakers WordPress DataBase Migration (CarDealer+)
-  Author: ThemeMakers
-  Version: 1.0.4
-  Author URI: http://themeforest.net/user/ThemeMakers
+ * Plugin Name: ThemeMakers DB Migrate
+ * Plugin URI: http://webtemplatemasters.com
+ * Description: ThemeMakers WordPress DataBase Migration
+ * Author: ThemeMakers
+ * Version: 2.0.0
+ * Author URI: http://themeforest.net/user/ThemeMakers
+ * Text Domain: tmm_db_migrate
  */
 
-if (!class_exists('TMM_ImpExp_Controller')) {
+define('TMM_MIGRATE_TEXTDOMAIN', 'tmm_db_migrate');
+define('TMM_MIGRATE_PATH', plugin_dir_path(__FILE__));
+define('TMM_MIGRATE_URL', plugin_dir_url(__FILE__));
+define('TMM_MIGRATE_UPLOAD_ATTACHMENTS_PACK', true);
+define('TMM_MIGRATE_UPLOAD_ATTACHMENT_BY_HTTP', false);
 
-	class TMM_ImpExp_Controller {
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateHelper.php';
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateExport.php';
+include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateImport.php';
 
-		private $export = null;
-		private $import = null;
-
-		public function get_application_path() {
-			return plugin_dir_path(__FILE__);
-		}
-
-		public static function get_application_uri() {
-			return plugin_dir_url(__FILE__);
-		}
-
-		public function init() {
-			if(intval(ini_get('memory_limit')) < 256){
-				@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
-			}
-			if(intval(ini_get('max_execution_time')) < 180){
-				@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
-			}
-			load_plugin_textdomain('tmm_db_migrate', false, $this->get_application_path() . 'languages');
-			add_action('admin_notices', array($this, 'admin_notices'));
-			//***
-			include_once $this->get_application_path() . 'classes/impexp_db.php';
-			include_once $this->get_application_path() . 'classes/export.php';
-			include_once $this->get_application_path() . 'classes/import.php';
-			
-			$this->export = new TMM_ImpExp_Export();
-			$this->import = new TMM_ImpExp_Import();
-			
-			//***export actions
-			add_action('wp_ajax_tmm_prepare_export_data', array($this->export, 'prepare_export_data'));
-			add_action('wp_ajax_tmm_process_export_data', array($this->export, 'process_table'));
-			add_action('wp_ajax_tmm_zip_export_data', array($this->export, 'zip_export_data'));
-			//***import actions
-			add_action('wp_ajax_tmm_import_data', array($this->import, 'import_data'));
-			//cardealer
-			add_action('wp_ajax_import_carlocation', array($this->import, 'import_carlocation'));
-		}
-
-		public function admin_notices() {
-			$notices = "";
-
-			if (!is_writable($this->export->get_upload_dir())) {
-				$notices.=sprintf(__('<div class="error"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href="http://webtemplatemasters.com/tutorials/permissions/" target="_blank">the link</a> to read the instructions how to do it properly.</p></div>', 'tmm_db_migrate'), $this->export->get_upload_dir());
-			}
-
-			echo $notices;
-		}
-	
-
-		public static function draw_options_page() {
-			wp_enqueue_script('tmm_db_migrate_exp', self::get_application_uri() . 'js/export.js', array('jquery'));
-			wp_enqueue_script('tmm_db_migrate_imp', self::get_application_uri() . 'js/import.js', array('jquery'));
-			?>
-			<script type="text/javascript">
-				var tmm_db_migrate_link = "<?php echo self::get_application_uri() ?>";
-				//***
-				var tmm_db_migrate_lang1 = "<?php _e('Prepare finished. Count of tables:', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang2 = "<?php _e('Process table:', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang3 = "<?php _e('Process Finishing ...', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang4 = "<?php _e('Download data zip', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang5 = "<?php _e('Import started. Please wait ...', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang6 = "<?php _e('Import finished. Count of tables:', 'tmm_db_migrate'); ?>";
-				var tmm_db_migrate_lang7 = "<?php _e('Are you sure? All content will be rewritten by the demo content if you confirm!', 'tmm_db_migrate'); ?>";
-			</script>
-			<?php
-			//echo $this->draw_html('options_page');
-		}
-
-		public function draw_html($view, $data = array()) {
-			@extract($data);
-			ob_start();
-			include($this->get_application_path() . '/views/' . $view . '.php');
-			return ob_get_clean();
-		}
-
-	}
-
+add_action( 'plugins_loaded', 'tmm_migrate_load_textdomain' );
+/**
+ * Load plugin textdomain.
+ */
+function tmm_migrate_load_textdomain() {
+	load_plugin_textdomain( TMM_MIGRATE_TEXTDOMAIN, false, TMM_MIGRATE_PATH . 'languages' );
 }
 
-if(isset($_FILES['locations_zip']) && is_uploaded_file($_FILES['locations_zip']['tmp_name'][0])){
-	if(intval(ini_get('memory_limit')) < 128){
-		@ini_set('memory_limit', '128M');
-	}
-	if(intval(ini_get('max_execution_time')) < 180){
-		@ini_set('max_execution_time', '180');
-	}
-	$parse_uri = explode('wp-content', $_SERVER['SCRIPT_FILENAME']);
-	$wp_load = $parse_uri[0] . 'wp-load.php';
-	require_once($wp_load);
-	$controller = new TMM_ImpExp_Controller();
-	include_once $controller->get_application_path() . 'classes/impexp_db.php';
-	include_once $controller->get_application_path() . 'classes/import.php';
-	$import = new TMM_ImpExp_Import();
-	$import->import_carlocation();
-	die;
+add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
+/**
+ * Enqueue admin scripts.
+ */
+function tmm_migrate_admin_enqueue_scripts() {
+
+	$tmm_lang = array(
+		'prepare_finished' => __('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_table' => __('Process table:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
+		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
+		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
+		'import_finished' => __('Content imported!', TMM_MIGRATE_TEXTDOMAIN),
+		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
+	);
+
+	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
+	wp_localize_script('tmm_db_migrate', 'tmm_migrate_l10n', $tmm_lang);
 }
 
-if (is_admin()) {
-	add_action('init', array(new TMM_ImpExp_Controller(), 'init'), 999);
+add_action( 'admin_init', 'tmm_migrate_init', 999 );
+/**
+ * Init main functionality.
+ */
+function tmm_migrate_init() {
+	if ( current_user_can('manage_options') ) {
+		/* try to increase performance settings */
+		if(intval(ini_get('memory_limit')) < 256){
+			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
+		}
+		if(intval(ini_get('max_execution_time')) < 180){
+			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
+		}
+
+		$export = new TMM_MigrateExport();
+		$import = new TMM_MigrateImport();
+
+		/* export actions */
+		add_action('wp_ajax_tmm_prepare_export_data', array($export, 'prepare_export_data'));
+		add_action('wp_ajax_tmm_process_export_data', array($export, 'process_table'));
+		add_action('wp_ajax_tmm_zip_export_data', array($export, 'zip_export_data'));
+		/* import actions */
+		add_action('wp_ajax_tmm_migrate_import_content', array($import, 'import_content'));
+		add_action('wp_ajax_tmm_migrate_import_attachment', array($import, 'upload_attachment'));
+	}
 }
-add_action('admin_enqueue_scripts', array('TMM_ImpExp_Controller', 'draw_options_page'));
+
+add_action( 'tmm_add_theme_options_tab', 'tmm_migrate_add_settings_tab', 999 );
+/**
+ * Add Settings tab.
+ */
+function tmm_migrate_add_settings_tab() {
+	if ( current_user_can('manage_options') ) {
+		if (class_exists('TMM_OptionsHelper')) {
+
+			$content = array();
+			$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
+
+			$content[ TMM_MIGRATE_TEXTDOMAIN ] = array(
+				'title' => '',
+				'type' => 'custom',
+				'custom_html' => TMM::draw_free_page($tmpl_path),
+				'show_title' => false
+			);
+
+			$sections = array(
+				'name' => __("Import / Export", TMM_MIGRATE_TEXTDOMAIN),
+				'css_class' => 'shortcut-plugins',
+				'show_general_page' => true,
+				'content' => $content,
+				'child_sections' => array(),
+				'menu_icon' => 'dashicons-admin-tools'
+			);
+
+			TMM_OptionsHelper::$sections[ TMM_MIGRATE_TEXTDOMAIN ] = $sections;
+
+		}
+	}
+}
+
+/**
+ * Load Cardealer module
+ */
+include_once TMM_MIGRATE_PATH . 'cardealer/index.php';
