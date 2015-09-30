@@ -7,9 +7,8 @@ class TMM_MigrateHelper {
 	const DIRSEP = '/';
 
 	public function get_upload_dir() {
-		$path = wp_upload_dir();
-		$basedir = str_replace('\\', self::DIRSEP, $path['basedir']);
-		return $basedir . self::DIRSEP . self::folder_key . self::DIRSEP;
+		$wp_upload_dir =  $this->get_wp_upload_dir();
+		return $wp_upload_dir . self::folder_key . self::DIRSEP;
 	}
 	
 	public function get_wp_upload_dir() {
@@ -18,14 +17,12 @@ class TMM_MigrateHelper {
 		return $basedir . self::DIRSEP;
 	}
 	
-	protected static function get_zip_file_path() {
+	/* theme options check TODO: check this function usage */
+	public static function is_zip_file_exists() {
 		$path = wp_upload_dir();
 		$basedir = str_replace('\\', self::DIRSEP, $path['basedir']);
-		return $basedir . self::DIRSEP . self::folder_key . self::DIRSEP . self::folder_key . '.zip';
-	}
-	
-	public static function is_zip_file_exists() {
-		return file_exists(self::get_zip_file_path());
+		$path = $basedir . self::DIRSEP . self::folder_key . self::DIRSEP . self::folder_key . '.zip';
+		return file_exists($path);
 	}
 
 	protected function get_zip_file_url() {
@@ -47,25 +44,34 @@ class TMM_MigrateHelper {
 		return $tables;
 	}
 	
-	protected function create_upload_folder() {
-		$path = wp_upload_dir();
-		$path = $path['basedir'];
+	protected function create_upload_folder($folder = '', $clean = false) {
+		$path = $this->get_wp_upload_dir();
 
 		if (!file_exists($path)) {
 			mkdir($path, 0775);
 		}
 
-		$path = $path . self::DIRSEP . self::folder_key . self::DIRSEP;
-		if (file_exists($path)) {
-			$this->delete_dir($path); //remove previous results
+		if (!$folder) {
+			$folder = self::folder_key;
 		}
-		mkdir($path, 0775);
+
+		$path = $path . $folder . self::DIRSEP;
+
+		if (!file_exists($path)) {
+			mkdir($path, 0775);
+		} else if ($clean) {
+			$this->delete_dir($path); //remove previous results
+			mkdir($path, 0775);
+		}
 
 		return $path;
 	}
 	
-	protected function extract_zip() {
-		$file_name = $this->get_upload_dir() . self::folder_key . '.zip';
+	protected function extract_zip($file_name = '') {
+		if (!$file_name) {
+			$file_name = $this->get_upload_dir() . self::folder_key . '.zip';
+		}
+
 		if(class_exists('ZipArchive')){
 			$zip = new ZipArchive();
 			if ($zip->open($file_name) === TRUE) {

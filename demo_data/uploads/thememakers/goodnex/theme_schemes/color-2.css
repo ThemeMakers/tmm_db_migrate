@@ -1,0 +1,315 @@
+
+/***************************** Global Styles ************************************/
+
+body { background: #ffffff }
+
+	body, p {
+		font-family: Arial, sans-serif;
+		font-size: 12px;
+	}
+
+	body { color: #828282; }
+
+	a { color: #828282; }
+
+	#footer { background-color: #373737; }
+
+	#logo .logo-text {
+		font-family: Open Sans, sans-serif;
+		color: #7b7b7b;
+		font-size:33px !important;
+	}
+
+
+	.divider-solid  {
+		height: 2px;
+		background-color: #ebebeb	}
+
+
+
+	/* Color */
+
+	.simple-pricing-table.type-1 .featured .cost,
+	.simple-pricing-table.type-2 .title,
+	.widget_popular_posts a:hover h6,
+	.portfolio-filter li a:hover,
+	#sidebar .widget li a:hover,
+	.portfolio-filter .active, 
+	.entry-meta span:before,
+	.entry-title h2 a:hover,
+	#sidebar .jta-tweet-a, 
+	.entry-meta a:hover,
+	.author-entry h5,
+	#footer a:hover,
+	.quote-author,
+	.tooltip
+	{
+		color: #22bbd6;
+	}
+
+	/* Background Color */
+	
+	.scribble .projects-carousel li:hover > a:after,
+	.simple-pricing-table.type-2 .featured .price,
+	.scribble article:hover .project-meta:after,
+	.simple-pricing-table .featured .button,
+	.widget_nav_menu .current-menu-item a,
+	.widget_nav_menu .current_page_item a,
+	.jta-tweet-list-controls span:hover,
+	.simple-pricing-table.type-1 .title,
+	.gallery-slider-nav:hover a:hover,
+	.scribble .team-entry:hover:after,
+	.scribble .tabs-nav .active:after,
+	.post-slider-nav:hover a:hover,
+	.widget_calendar tfoot a:hover,
+	.widget_nav_menu li:hover > a,
+	.recent-projects-nav a:hover,
+	.flex-direction-nav a:hover,
+	.portfolio-controls a:hover,
+	.form-submit #submit:hover,
+	.acc-trigger.active:before,
+	.comment-reply-link:hover,
+	#layerslider .inline-h2,
+	.ajax-nav li:hover > a,
+	.jcarousel-prev:hover,
+	.jcarousel-next:hover,
+	.wp-pagenavi .current,
+	.button.default:hover,
+	.flexslider .caption,
+	.ajax-nav .current a, 
+	ul.type-1 li:before,
+	.quotes-nav a:hover,
+	#back-top:hover,
+	.slider .inline,
+	.dropcap.color,
+	i.small-arrows,
+	.curtain
+	{
+		background-color: #22bbd6;
+	}
+
+	/* Border Color */
+
+	.portfolio-items article:hover .project-meta,
+	.widget_nav_menu .current-menu-item:before,
+	.widget_nav_menu .current_page_item:before,
+	.normal .projects-carousel li:hover > a,
+	.widget_nav_menu li:hover:before,
+	.ajax-nav li:hover:before,
+	.ajax-nav .current:before,
+	.tabs-nav .active,
+	.team-entry:hover
+	{ 
+		border-color: #22bbd6;
+	}
+	
+	/* Box Shadow Flickr */
+
+	.flickr-badge li:hover a:after {
+		-webkit-box-shadow: inset 0 0 0 3px #22bbd6;
+		   -moz-box-shadow: inset 0 0 0 3px #22bbd6;
+				box-shadow: inset 0 0 0 3px #22bbd6;
+	}
+
+	/* Selection */
+
+	::-moz-selection  { background-color: #22bbd6; }
+	::selection	      { background-color: #22bbd6; }
+	.highlight		  { background-color: #22bbd6; }
+
+
+/************************ Headings *****************************/   
+
+	h1 {
+		font-family:Open Sans;
+		font-size:28px;
+		color:#373737;
+	}
+	
+	h1 a { color:#373737; }
+	h1 a:hover { color:#373737; }
+	
+
+	h2 {
+		font-family:Open Sans;
+		font-size:24px;
+		color:#373737;
+	}
+	
+	h2 a { color:#373737; }
+	h2 a:hover { color:#373737; }
+	
+
+	h3 {
+		font-family:Open Sans;
+		font-size:20px;
+		color:#373737;
+	}
+	
+	h3 a { color:#373737; }
+	h3 a:hover { color:#373737; }
+	
+
+	
+	h4 {
+		font-family:Open Sans;
+		font-size:18px;
+		color:#373737;
+	}
+	
+	h4 a { color:#373737; }
+	h4 a:hover { color:#373737; }
+	
+
+	h5 {
+		font-family:Open Sans;
+		font-size:16px;
+		color:#373737;
+	}
+	
+	h5 a { color:#373737; }
+	h5 a:hover { color:#373737; }
+	
+
+	h6 {
+		font-family:Open Sans;
+		font-size:14px;
+		color:#373737;
+	}
+	
+	h6 a { color:#373737; }
+	h6 a:hover { color:#373737; }
+	
+
+/************************* Main Navigation *******************************/
+
+	.navigation a { font-family: Open Sans; }
+
+	.navigation > div > ul > li > a { font-size: 12px; }
+
+	.navigation ul ul li a { font-size: 13px; }
+
+/* First Level Color */
+
+	.navigation > div > ul > li > a { color:#1e1e1e; }
+
+	.navigation > div > ul > li.current-menu-item > a,
+	.navigation > div > ul > li.current-menu-parent > a,
+	.navigation > div > ul > li.current-menu-ancestor > a,
+	.navigation > div > ul > li.current_page_item > a,
+	.navigation > div > ul > li.current_page_parent > a,
+	.navigation > div > ul > li.current_page_ancestor > a {
+		color: #ffffff;
+	}
+
+	.navigation > div > ul > li:hover > a { color:#ffffff; }
+
+/* Second Level Color */
+
+	.navigation div ul ul li > a { color:#818181; }
+
+	.navigation > div > ul ul li:hover > a,
+	.navigation > div > ul ul li.current-menu-item > a,
+	.navigation > div > ul ul li.current-menu-parent > a,
+	.navigation > div > ul ul li.current-menu-ancestor > a,
+	.navigation > div > ul ul li.current_page_item > a,
+	.navigation > div > ul ul li.current_page_parent > a,
+	.navigation > div > ul ul li.current_page_ancestor > a
+	{ 
+		color:#22bbd6; 
+	}
+	
+	.navigation > div > ul ul > li.current-menu-item > a,
+	.navigation > div > ul ul > li.current-menu-parent > a,
+	.navigation > div > ul ul > li.current-menu-ancestor > a,
+	.navigation > div > ul ul > li.current_page_item > a,
+	.navigation > div > ul ul > li.current_page_parent > a,
+	.navigation > div > ul ul > li.current_page_ancestor > a {
+		color: #22bbd6;
+	}
+	
+
+/* First Level Background Color */
+
+
+	.navigation > div > ul > li:hover > a,
+	.navigation > div > ul > li.current-menu-item > a,
+	.navigation > div > ul > li.current-menu-parent > a,
+	.navigation > div > ul > li.current-menu-ancestor > a,
+	.navigation > div > ul > li.current_page_item > a,
+	.navigation > div > ul > li.current_page_parent > a,
+	.navigation > div > ul > li.current_page_ancestor > a {
+		background-color: #22bbd6;
+	}
+	
+	
+/* Second Level Background Color */
+
+	
+	.navigation > div ul ul > li:hover > a,
+	.navigation > div ul ul > li.current-menu-item > a,
+	.navigation > div ul ul > li.current-menu-parent > a,
+	.navigation > div ul ul > li.current-menu-ancestor > a,
+	.navigation > div ul ul > li.current_page_item > a,
+	.navigation > div ul ul > li.current_page_parent > a,
+	.navigation > div ul ul > li.current_page_ancestor > a {
+		background-color: #f9f9f9;
+	}
+	
+
+
+/************************** Content ******************************/
+
+
+	#content .container,
+	#content .container p {
+		font-family: Arial;
+		font-size: 12px;
+		color: #828282;
+	}
+	
+
+/*************************** Buttons *****************************/ 
+
+	
+	#content .button.turquoise,
+	#footer .button.turquoise {
+		font-family: Arial;
+		color: #ffffff ;
+		background-color: #22bbd6;
+	}
+	
+	#content .button.small,
+	#footer .button.small {
+		font-size: 12px;
+	}
+	
+	#content .button.turquoise:hover,
+	#footer .button.turquoise:hover { 
+		background-color: #373737; 
+		color: #ffffff	}
+	
+
+/************************** Widgets *****************************/
+
+	
+	#sidebar .widget .widget-title {
+		color: #373737;
+	}
+
+	#sidebar .widget,
+	#sidebar .widget p { color: #828282; }
+
+	#sidebar a { color: #828282; }
+	#sidebar a:hover { color: #22bbd6; }
+	
+
+	
+	#footer .widget .widget-title { color: #ebebeb; }
+
+	#footer .widget,
+	#footer .widget p { color: #969696; }
+
+	#footer .widget a { color: #828282; }
+	#footer .widget a:hover { color: #22bbd6; }
+	
