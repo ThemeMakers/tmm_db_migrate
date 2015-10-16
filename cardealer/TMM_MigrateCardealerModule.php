@@ -178,7 +178,7 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 				'parent_id' => 0,
 				'name' => $country_name
 			);
-			$country_id = $this->insert_location_item($args);
+			$country_id = (int) $this->insert_location_item($args);
 		}
 		/* import state */
 		chdir($folder);
@@ -191,13 +191,15 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 					$content = file_get_contents($folder.'/'.$file_name.'.dat');
 					$data = json_decode($content, true);
 					$country_name = trim($data['country_code']);
+
 					if(!$country_id && isset($big_countries_list[$country_name])){
 						$args = array(
 							'parent_id' => 0,
 							'name' => $big_countries_list[$country_name]
 						);
-						$country_id = $this->insert_location_item($args);
+						$country_id = (int) $this->insert_location_item($args);
 					}
+
 					if($country_id){
 						if(isset($data['state_name'])){
 							$state_id = 0;
@@ -205,18 +207,37 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 								'parent_id' => $country_id,
 								'name' => $data['state_name']
 							);
-							$state_id = $this->insert_location_item($args);
+							$state_id = (int) $this->insert_location_item($args);
+
 							if($state_id && isset($data['cities']) && is_array($data['cities'])){
-								foreach($data['cities'] as $city){
-									$args = array(
-										'parent_id' => $state_id,
-										'name' => $city['city_name']
-									);
-									$this->insert_location_item($args);
+
+								global $wpdb;
+								$existed_cities = $wpdb->get_results("SELECT `slug` FROM tmm_cars_locations WHERE parent_id = {$state_id}", ARRAY_A);
+								$slugs = array();
+								$new_cities = array();
+
+								foreach ($existed_cities as $k => $v) {
+									if (isset($v['slug'])) {
+										$slugs[$v['slug']] = 1;
+									}
 								}
+
+								foreach($data['cities'] as $city){
+									$city_slug = sanitize_key($city['city_name']);
+
+									if ( !isset($slugs[$city_slug]) ) {
+										$new_cities[] = $city['city_name'];
+									}
+
+								}
+
+								$this->insert_locations_pack($state_id, $new_cities);
+
 							}
+
 						}
 					}
+
 				}
 			}
 		}
@@ -238,5 +259,22 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 		}
 		return $id;
 	}
-	
+
+	public function insert_locations_pack($parent_id, $data) {
+		if (empty($data)) {
+			return;
+		}
+
+		global $wpdb;
+		$query = "INSERT INTO `tmm_cars_locations` (`id`, `parent_id`, `name`, `slug`) VALUES ";
+
+		foreach ($data as $k => $v) {
+			$query .= $wpdb->prepare("(NULL, '%d', '%s', '%s'),", $parent_id, $v, sanitize_key($v));
+		}
+
+		$query = rtrim($query, ',') . ';';
+
+		$wpdb->query($query);
+	}
+
 }
