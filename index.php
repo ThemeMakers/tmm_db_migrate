@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: ThemeMakers DB Migrate
  * Plugin URI: http://webtemplatemasters.com
  * Description: ThemeMakers WordPress DataBase Migration
@@ -24,7 +24,7 @@ add_action( 'plugins_loaded', 'tmm_migrate_load_textdomain' );
  * Load plugin textdomain.
  */
 function tmm_migrate_load_textdomain() {
-	load_plugin_textdomain( TMM_MIGRATE_TEXTDOMAIN, false, TMM_MIGRATE_PATH . 'languages' );
+	load_plugin_textdomain( 'tmm_db_migrate', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
