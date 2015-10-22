@@ -297,6 +297,8 @@ $memory = size_format( wp_convert_hr_to_bytes( WP_MEMORY_LIMIT ) );
 $time = ini_get('max_execution_time');
 ?>
 
+<hr>
+
 <h2><?php _e('Server Info', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
 
 <div class="option">
