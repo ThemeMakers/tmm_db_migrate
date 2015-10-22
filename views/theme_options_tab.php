@@ -1,5 +1,8 @@
 <?php if (!defined('ABSPATH')) die('No direct access allowed'); ?>
 <style type="text/css">
+	.option  .explain.red, .red {color:red}
+	.option  .explain.blue, .blue {color:blue}
+
 	#fountainTextG{
 		width:190px;
 		margin:auto;
@@ -288,3 +291,53 @@ TMM_OptionsHelper::draw_theme_option(array(
 	'id' => 'upload_locations',
 ));
 ?>
+
+<?php
+$memory = size_format( wp_convert_hr_to_bytes( WP_MEMORY_LIMIT ) );
+$time = ini_get('max_execution_time');
+?>
+
+<h2><?php _e('Server Info', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+
+<div class="option">
+	<div class="controls"><?php _e( 'WP Memory Limit', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="explain<?php echo (int) $memory < 128 ? ' red' : ''; ?>">
+		<?php echo $memory; ?>
+		<?php
+		if ( (int) $memory < 128 ) {
+			echo '<br>' . __( 'You need to increase the server memory limit up to 128MB. See: ', TMM_MIGRATE_TEXTDOMAIN ) .
+			     '<a class="blue" href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">' .
+			        __( 'Increasing memory allocated to PHP', TMM_MIGRATE_TEXTDOMAIN ) .
+			     '</a>';
+		}
+		?>
+	</div>
+</div>
+
+<div class="option">
+	<div class="controls"><?php _e( 'PHP Max Execution Time', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="explain<?php echo (int) $time < 300 ? ' red' : ''; ?>">
+		<?php echo $time; ?>
+		<?php
+		if ( (int) $time < 300 ) {
+			echo '<br>';
+			_e( 'You need to increase the server waiting time to 300 sec', TMM_MIGRATE_TEXTDOMAIN );
+		}
+		?>
+	</div>
+</div>
+
+<div class="option">
+	<div class="controls"><?php _e( 'PHP Max Input Vars', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="explain"><?php echo ini_get('max_input_vars'); ?></div>
+</div>
+
+<div class="option">
+	<div class="controls"><?php _e( 'PHP Post Max Size', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="explain"><?php echo size_format( wp_convert_hr_to_bytes( ini_get('post_max_size') ) ); ?></div>
+</div>
+
+<div class="option">
+	<div class="controls"><?php _e( 'WP Max Upload File Size', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="explain"><?php echo esc_html( size_format( wp_max_upload_size() ) );	?></div>
+</div>
