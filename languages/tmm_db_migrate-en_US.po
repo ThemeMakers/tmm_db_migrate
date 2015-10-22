@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ThemeMakers DB Migrate\n"
-"POT-Creation-Date: 2015-10-10 20:27+0200\n"
-"PO-Revision-Date: 2015-10-10 20:28+0200\n"
+"POT-Creation-Date: 2015-10-23 00:25+0200\n"
+"PO-Revision-Date: 2015-10-23 00:25+0200\n"
 "Last-Translator: Alex TM <support@webtemplatemasters.com>\n"
 "Language-Team: Alex TM <support@webtemplatemasters.com>\n"
 "Language: en_US\n"
@@ -79,29 +79,29 @@ msgstr ""
 msgid "Import / Export"
 msgstr ""
 
-#: views/theme_options_tab.php:173
+#: views/theme_options_tab.php:176
 msgid "Demo Data Installation"
 msgstr ""
 
-#: views/theme_options_tab.php:181 views/theme_options_tab.php:189
+#: views/theme_options_tab.php:184 views/theme_options_tab.php:192
 msgid "Demo Data Install"
 msgstr ""
 
-#: views/theme_options_tab.php:183 views/theme_options_tab.php:192
+#: views/theme_options_tab.php:186 views/theme_options_tab.php:195
 msgid "Import Carproducers"
 msgstr ""
 
-#: views/theme_options_tab.php:207
+#: views/theme_options_tab.php:210
 msgid "Important Notice:"
 msgstr ""
 
-#: views/theme_options_tab.php:208
+#: views/theme_options_tab.php:211
 msgid ""
 "We just defined there are some posts/pages already there on your website, "
 "therefore it is not a clean WordPress Installation!"
 msgstr ""
 
-#: views/theme_options_tab.php:209
+#: views/theme_options_tab.php:212
 msgid ""
 "Please note, that your current database(all your content) will be "
 "overwritten after clicking \"Demo Data Install\" button and there is no way "
@@ -109,53 +109,89 @@ msgid ""
 "before installing demo content."
 msgstr ""
 
-#: views/theme_options_tab.php:213
+#: views/theme_options_tab.php:216
 msgid "Everything is fine."
 msgstr ""
 
-#: views/theme_options_tab.php:213
+#: views/theme_options_tab.php:216
 msgid "You are ready to go..."
 msgstr ""
 
-#: views/theme_options_tab.php:228
+#: views/theme_options_tab.php:231
 msgid "Import Attachments"
 msgstr ""
 
-#: views/theme_options_tab.php:234
+#: views/theme_options_tab.php:237
 msgid "Download and import file attachments (images, videos, audios)"
 msgstr ""
 
-#: views/theme_options_tab.php:240
+#: views/theme_options_tab.php:243
 msgid "Backup DB"
 msgstr ""
 
-#: views/theme_options_tab.php:246
+#: views/theme_options_tab.php:249
 msgid "Backup your database content before importing. Placed in "
 msgstr ""
 
-#: views/theme_options_tab.php:258 views/theme_options_tab.php:264
+#: views/theme_options_tab.php:261 views/theme_options_tab.php:267
 msgid "Export Data"
 msgstr ""
 
-#: views/theme_options_tab.php:272
+#: views/theme_options_tab.php:275
 msgid ""
 "In Case you need to transfer your website to another domain the easiest way "
 "to export all the data is here."
 msgstr ""
 
-#: views/theme_options_tab.php:273
+#: views/theme_options_tab.php:276
 msgid "Video guide on how to do that properly is coming soon..."
 msgstr ""
 
-#: views/theme_options_tab.php:281
+#: views/theme_options_tab.php:284
 msgid "Import Locations"
 msgstr ""
 
-#: views/theme_options_tab.php:287
+#: views/theme_options_tab.php:290
 msgid ""
 "Only zip files.<br> While importing big countries you need to login to your "
 "Cpanel and increase the server waiting time to 300 sec (max_execution_time "
 "in PHP settings) and increase the  memory_limit to  128M as well."
+msgstr ""
+
+#: views/theme_options_tab.php:302
+msgid "Server Info"
+msgstr ""
+
+#: views/theme_options_tab.php:305
+msgid "WP Memory Limit"
+msgstr ""
+
+#: views/theme_options_tab.php:310
+msgid "You need to increase the server memory limit up to 128MB. See: "
+msgstr ""
+
+#: views/theme_options_tab.php:312
+msgid "Increasing memory allocated to PHP"
+msgstr ""
+
+#: views/theme_options_tab.php:320
+msgid "PHP Max Execution Time"
+msgstr ""
+
+#: views/theme_options_tab.php:326
+msgid "You need to increase the server waiting time to 300 sec"
+msgstr ""
+
+#: views/theme_options_tab.php:333
+msgid "PHP Max Input Vars"
+msgstr ""
+
+#: views/theme_options_tab.php:338
+msgid "PHP Post Max Size"
+msgstr ""
+
+#: views/theme_options_tab.php:343
+msgid "WP Max Upload File Size"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
