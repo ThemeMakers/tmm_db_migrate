@@ -36,6 +36,11 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 
 		if ($table && @strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false) {
 
+			/* ignore WPML tables */
+			if (TMM_MIGRATE_IGNORE_WPML && @strpos($table, '_icl_') !== false) {
+				wp_die(0);
+			}
+
 			$query_res = $wpdb->get_results("SELECT * FROM " . $table, ARRAY_A);
 
 			if (!empty($query_res)) {
@@ -61,6 +66,16 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 						if (in_array($row['option_name'], $continue_array) || $pos !== false) {
 							continue;
 						}
+
+						/* ignore WPML settings */
+						if (TMM_MIGRATE_IGNORE_WPML) {
+							if ( @strpos($row['option_name'], '_icl_') !== false ||
+							      @substr($row['option_name'], 0, 4) === 'icl_' ||
+							       @substr($row['option_name'], 0, 5) === 'wpml_' ) {
+								continue;
+							}
+						}
+
 
 					}
 

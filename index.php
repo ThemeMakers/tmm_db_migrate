@@ -14,6 +14,7 @@ define('TMM_MIGRATE_PATH', plugin_dir_path(__FILE__));
 define('TMM_MIGRATE_URL', plugin_dir_url(__FILE__));
 define('TMM_MIGRATE_UPLOAD_ATTACHMENTS_PACK', true);
 define('TMM_MIGRATE_UPLOAD_ATTACHMENT_BY_HTTP', false);
+define('TMM_MIGRATE_IGNORE_WPML', true);
 
 include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateHelper.php';
 include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateExport.php';
