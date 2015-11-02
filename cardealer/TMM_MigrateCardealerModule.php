@@ -69,13 +69,13 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 	}
 
 	/* Import CarDealer locations */
-	public function import_carlocation(){
+	public function import_carlocations(){
 
 		if(intval(ini_get('memory_limit')) < 256){
 			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
 		}
 		if(intval(ini_get('max_execution_time')) < 300){
-			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
+			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '300' ) );
 		}
 
 		global $wpdb;
@@ -88,49 +88,83 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 			 INDEX (`parent_id`),
 			 INDEX (`slug`)
 		)");
+
 		$targetFolder = $this->create_locations_upload_folder();
-		$files_count = count($_FILES['locations_zip']['tmp_name']);
+		$files_count = count($_POST['locations']);
 		$uploaded_files_count = 0;
-		$upload_success = false;
-		
-		for($i=0;$i<count($_FILES['locations_zip']['tmp_name']);$i++){
-			if(strpos($_FILES['locations_zip']['type'][$i], 'zip')){
-				$file_name = $targetFolder . $_FILES['locations_zip']['name'][$i];
-				move_uploaded_file($_FILES['locations_zip']['tmp_name'][$i], $file_name);
-				
-				if(is_dir($targetFolder . 'temp')){
-					$this->delete_dir($targetFolder . 'temp');
-				}
-				mkdir($targetFolder . 'temp', 0766);
-				chmod($file_name, 0766);
-				
-				if(class_exists('ZipArchive')){
-					$zip = new ZipArchive();
-					if ($zip->open($file_name) === TRUE) {
-						$zip->extractTo($targetFolder . 'temp');
-						$zip->close();
-						$zipfile = true;
-					} else {
-						echo 'failed';
-						$zipfile = false;
+		$result = array(
+			'success' => false,
+			'errors' => array(),
+		);
+		$locations = array();
+
+		if (!empty($_POST['locations'])) {
+			$locations = $_POST['locations'];
+		}
+
+		if (is_array($locations)) {
+
+			foreach ($locations as $file_id => $file_url) {
+
+				if(strpos($file_url, '.zip') !== false){
+
+					$basename = basename($file_url);
+					$file_name = $targetFolder . $basename;
+
+					$path = wp_upload_dir();
+					$temp = explode('wp-content/uploads', $file_url);
+					$file_path = $path['basedir'] . $temp[1];
+
+					$is_copied = copy( $file_path, $file_name);
+
+					if (!$is_copied) {
+						$result['errors'][] = $basename;
 					}
-				}else{
-					require_once( ABSPATH . 'wp-admin/includes/file.php' );
-					WP_Filesystem();
-					$zipfile = unzip_file($file_name, $targetFolder . 'temp');
+
+					if(is_dir($targetFolder . 'temp')){
+						$this->delete_dir($targetFolder . 'temp');
+					}
+					mkdir($targetFolder . 'temp', 0766);
+					chmod($file_name, 0766);
+
+					if(class_exists('ZipArchive')){
+						$zip = new ZipArchive();
+						if ($zip->open($file_name) === TRUE) {
+							$zip->extractTo($targetFolder . 'temp');
+							$zip->close();
+							$zipfile = true;
+						} else {
+							echo 'failed';
+							$zipfile = false;
+						}
+					}else{
+						require_once( ABSPATH . 'wp-admin/includes/file.php' );
+						WP_Filesystem();
+						$zipfile = unzip_file($file_name, $targetFolder . 'temp');
+					}
+
+					if($zipfile){
+						$this->process_location_files($targetFolder . 'temp');
+						$uploaded_files_count++;
+					}
+
+					@unlink($file_name);
+
 				}
-				
-				if($zipfile){
-					$this->process_location_files($targetFolder . 'temp');
-					$uploaded_files_count++;
-				}
+
 			}
+
 		}
+
+		$this->delete_dir($targetFolder . 'temp');
+
 		if($files_count === $uploaded_files_count){
-			$upload_success = 1;
+			$result['success'] = 1;
 		}
-		
-		echo $upload_success;
+
+		ob_clean();
+		echo json_encode($result);
+		wp_die();
 	}
 
 	protected function create_locations_upload_folder() {
