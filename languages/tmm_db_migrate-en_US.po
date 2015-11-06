@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ThemeMakers DB Migrate\n"
-"POT-Creation-Date: 2015-11-06 17:16+0100\n"
-"PO-Revision-Date: 2015-11-06 17:16+0100\n"
+"POT-Creation-Date: 2015-11-06 18:37+0100\n"
+"PO-Revision-Date: 2015-11-06 18:37+0100\n"
 "Last-Translator: Alex TM <support@webtemplatemasters.com>\n"
 "Language-Team: Alex TM <support@webtemplatemasters.com>\n"
 "Language: en_US\n"
@@ -153,9 +153,9 @@ msgstr ""
 
 #: views/theme_options_tab.php:290
 msgid ""
-"Only zip files.<br> While importing big countries you need to login to your "
-"Cpanel and increase the server waiting time to 300 sec (max_execution_time "
-"in PHP settings) and increase the  memory_limit to  128M as well."
+"Only zip files.<br> While importing big countries you need to login to "
+"increase the server execution time to 300 sec (max_execution_time in PHP "
+"settings) and increase the  memory_limit to  128M as well."
 msgstr ""
 
 #: views/theme_options_tab.php:302
