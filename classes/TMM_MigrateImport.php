@@ -128,6 +128,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		flush_rewrite_rules();
 
 		$this->delete_dir($db_upload_dir);
+		ob_clean();
 		wp_die( json_encode($result) );
 	}
 

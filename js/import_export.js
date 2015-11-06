@@ -46,7 +46,7 @@ var TMM_DB_MIGRATE = function() {
 
 				process_div.find('.import-status').text(tmm_migrate_l10n.import_finished);
 
-				if (upload_attachments != 0 && response.attachments && response.attachments.length > 0) {
+				if (upload_attachments != 0 && response && response.attachments && response.attachments.length > 0) {
 					var i;
 					attachments_count = response.attachments.length;
 
