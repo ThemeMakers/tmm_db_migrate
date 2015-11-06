@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ThemeMakers DB Migrate\n"
-"POT-Creation-Date: 2015-10-23 00:25+0200\n"
-"PO-Revision-Date: 2015-10-23 00:25+0200\n"
+"POT-Creation-Date: 2015-11-06 17:16+0100\n"
+"PO-Revision-Date: 2015-11-06 17:16+0100\n"
 "Last-Translator: Alex TM <support@webtemplatemasters.com>\n"
 "Language-Team: Alex TM <support@webtemplatemasters.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: index.php\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -20,62 +20,62 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: cardealer/index.php:33
+#: cardealer/index.php:15
 msgid "Are you sure?"
 msgstr ""
 
-#: cardealer/index.php:34
+#: cardealer/index.php:16
 msgid "Carproducers imported!"
 msgstr ""
 
-#: cardealer/index.php:35
+#: cardealer/index.php:17
 msgid "Carproducers already imported!"
 msgstr ""
 
-#: cardealer/index.php:36
+#: cardealer/index.php:18
 msgid "Loading ..."
 msgstr ""
 
-#: cardealer/index.php:37
+#: cardealer/index.php:19
 msgid "Your location list was successfully loaded into server's database"
 msgstr ""
 
-#: cardealer/index.php:38
+#: cardealer/index.php:20
 msgid "Something wrong. Please try again!"
 msgstr ""
 
-#: index.php:37
+#: index.php:38
 msgid "Prepare finished. Count of tables:"
 msgstr ""
 
-#: index.php:38
+#: index.php:39
 msgid "Process table:"
 msgstr ""
 
-#: index.php:39
+#: index.php:40
 msgid "Process Finishing ..."
 msgstr ""
 
-#: index.php:40
+#: index.php:41
 msgid "Download data zip"
 msgstr ""
 
-#: index.php:41
+#: index.php:42
 msgid "Import started. Please wait ..."
 msgstr ""
 
-#: index.php:42
+#: index.php:43
 msgid "Content imported!"
 msgstr ""
 
-#: index.php:43
+#: index.php:44
 msgid ""
 "Are you sure? Please make sure you backed up your website database before "
 "proceed installing demo. All your current content will be overwritten by the "
 "demo content if you confirm!"
 msgstr ""
 
-#: index.php:96
+#: index.php:97
 msgid "Import / Export"
 msgstr ""
 
