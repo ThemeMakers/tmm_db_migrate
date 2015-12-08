@@ -1,39 +1,119 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=utf-8\n"
+"Project-Id-Version: ThemeMakers DB Migrate\n"
+"POT-Creation-Date: 2015-07-24 00:27+0100\n"
+"PO-Revision-Date: 2015-07-24 00:27+0100\n"
+"Last-Translator: Alex TM <support@webtemplatemasters.com>\n"
+"Language-Team: Alex TM <support@webtemplatemasters.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#. Text in function
-#: tmm_db_migrate/index.php:1
-msgid "<div class=\"error\"><p>To make plugin ThemeMakers DB Migrate work correctly you need to set the permissions 0775 for <b>%s</b> folder or create this one. Follow <a href=\"http://webtemplatemasters.com/tutorials/permissions/\" target=\"_blank\">the link</a> to read the instructions how to do it properly.</p></div>"
-msgstr ""
-
-#. Text in echo
-#: tmm_db_migrate/index.php:68
-msgid "Download data zip"
-msgstr ""
-
-#. Text in echo
-#: tmm_db_migrate/index.php:70
-msgid "Import finished. Count of tables:"
-msgstr ""
-
-#. Text in echo
-#: tmm_db_migrate/index.php:69
-msgid "Import started. Please wait ..."
-msgstr ""
-
-#. Text in echo
-#: tmm_db_migrate/index.php:65
+#: index.php:37
 msgid "Prepare finished. Count of tables:"
 msgstr ""
 
-#. Text in echo
-#: tmm_db_migrate/index.php:67
+#: index.php:38
+msgid "Process table:"
+msgstr ""
+
+#: index.php:39
 msgid "Process Finishing ..."
 msgstr ""
 
-#. Text in echo
-#: tmm_db_migrate/index.php:66
-msgid "Process table:"
+#: index.php:40
+msgid "Download data zip"
+msgstr ""
+
+#: index.php:41
+msgid "Import started. Please wait ..."
+msgstr ""
+
+#: index.php:42
+msgid "Content imported!"
+msgstr ""
+
+#: index.php:43
+msgid ""
+"Are you sure? Please make sure you backed up your website database before "
+"proceed installing demo. All your current content will be overwritten by the "
+"demo content if you confirm!"
+msgstr ""
+
+#: index.php:96
+msgid "Import / Export"
+msgstr ""
+
+#: views/theme_options_tab.php:3
+msgid "Demo Data Installation"
+msgstr ""
+
+#: views/theme_options_tab.php:9
+msgid "Demo Data Install"
+msgstr ""
+
+#: views/theme_options_tab.php:23
+msgid "Important Notice:"
+msgstr ""
+
+#: views/theme_options_tab.php:24
+msgid ""
+"We just defined there are some posts/pages already there on your website, "
+"therefore it is not a clean WordPress Installation!"
+msgstr ""
+
+#: views/theme_options_tab.php:25
+msgid ""
+"Please note, that your current database(all your content) will be "
+"overwritten after clicking \"Demo Data Install\" button and there is no way "
+"to revert it back, so we would kindly ask you making a database backup "
+"before installing demo content."
+msgstr ""
+
+#: views/theme_options_tab.php:29
+msgid "Everything is fine."
+msgstr ""
+
+#: views/theme_options_tab.php:29
+msgid "You are ready to go..."
+msgstr ""
+
+#: views/theme_options_tab.php:41
+msgid "Import Attachments"
+msgstr ""
+
+#: views/theme_options_tab.php:47
+msgid "Download and import file attachments (images, videos, audios)"
+msgstr ""
+
+#: views/theme_options_tab.php:53
+msgid "Backup DB"
+msgstr ""
+
+#: views/theme_options_tab.php:59
+msgid "Backup your database content before importing. Placed in "
+msgstr ""
+
+#: views/theme_options_tab.php:68 views/theme_options_tab.php:74
+msgid "Export Data"
+msgstr ""
+
+#: views/theme_options_tab.php:82
+msgid ""
+"In Case you need to transfer your website to another domain the easiest way "
+"to export all the data is here."
+msgstr ""
+
+#: views/theme_options_tab.php:83
+msgid "Video guide on how to do that properly is coming soon..."
 msgstr ""
