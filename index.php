@@ -80,10 +80,12 @@ add_action( 'tmm_add_theme_options_tab', 'tmm_migrate_add_settings_tab', 999 );
  */
 function tmm_migrate_add_settings_tab() {
 	if ( current_user_can('manage_options') ) {
-		if (class_exists('TMM_OptionsHelper')) {
+
+		$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
+
+		if (class_exists('TMM_OptionsHelper') && !empty(TMM_OptionsHelper::$sections)) {
 
 			$content = array();
-			$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
 
 			$content[ TMM_MIGRATE_TEXTDOMAIN ] = array(
 				'title' => '',
@@ -103,6 +105,8 @@ function tmm_migrate_add_settings_tab() {
 
 			TMM_OptionsHelper::$sections[ TMM_MIGRATE_TEXTDOMAIN ] = $sections;
 
+		} else {
+			echo TMM_OptionsHelper::draw_free_page($tmpl_path);
 		}
 	}
 }

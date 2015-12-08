@@ -4,13 +4,13 @@
 
 <div class="option">
 
-	<div class="controls alternative">
+	<div class="controls alternative admin-one-half">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+		<a href="#" class="button" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
 
 	</div>
 
-	<div class="explain alternative">
+	<div class="admin-one-half last">
 
 		<?php
 		$count_posts = wp_count_posts();
@@ -69,15 +69,15 @@ TMM_OptionsHelper::draw_theme_option(array(
 
 <div class="option">
 
-	<div class="controls alternative">
+	<div class="controls alternative admin-one-half">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_export_data"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+		<a href="#" class="button" id="button_prepare_export_data"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></a>
 
 		<ul id="tmm_db_migrate_process"></ul>
 
 	</div>
 
-	<div class="explain alternative">
+	<div class="admin-one-half last">
 
 		<p><?php _e('In Case you need to transfer your website to another domain the easiest way to export all the data is here.', TMM_MIGRATE_TEXTDOMAIN); ?></p>
 		<p><?php _e('Video guide on how to do that properly is coming soon...', TMM_MIGRATE_TEXTDOMAIN); ?></p>
