@@ -4,13 +4,6 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 
 	public static function import_carproducers() {
 
-		if(intval(ini_get('memory_limit')) < 128){
-			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '128M' ) );
-		}
-		if(intval(ini_get('max_execution_time')) < 300){
-			@ini_set( 'max_execution_time', apply_filters( 'admin_memory_limit', '300' ) );
-		}
-
 		$data = file_get_contents(TMM_MIGRATE_PATH . 'cardealer/carproducers.dat');
 		$data = unserialize($data);
 
@@ -70,13 +63,6 @@ class TMM_MigrateCardealerModule extends TMM_MigrateHelper {
 
 	/* Import CarDealer locations */
 	public function import_carlocations(){
-
-		if(intval(ini_get('memory_limit')) < 256){
-			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
-		}
-		if(intval(ini_get('max_execution_time')) < 300){
-			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '300' ) );
-		}
 
 		global $wpdb;
 		$wpdb->query("CREATE TABLE IF NOT EXISTS `tmm_cars_locations` (

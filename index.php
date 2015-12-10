@@ -55,11 +55,16 @@ add_action( 'admin_init', 'tmm_migrate_init', 999 );
 function tmm_migrate_init() {
 	if ( current_user_can('manage_options') ) {
 		/* try to increase performance settings */
-		if(intval(ini_get('memory_limit')) < 256){
-			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '256M' ) );
+		$memory_limit = intval(ini_get('memory_limit'));
+
+		if(!empty($memory_limit) && $memory_limit < 128){
+			@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', '128M' ) );
 		}
-		if(intval(ini_get('max_execution_time')) < 180){
-			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '180' ) );
+
+		$max_execution_time = intval(ini_get('max_execution_time'));
+
+		if(!empty($max_execution_time) && $max_execution_time < 300){
+			@ini_set( 'max_execution_time', apply_filters( 'max_execution_time', '300' ) );
 		}
 
 		$export = new TMM_MigrateExport();
