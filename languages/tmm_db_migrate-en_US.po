@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ThemeMakers DB Migrate\n"
-"POT-Creation-Date: 2015-11-06 18:37+0100\n"
-"PO-Revision-Date: 2015-11-06 18:37+0100\n"
+"POT-Creation-Date: 2015-12-11 20:08+0100\n"
+"PO-Revision-Date: 2015-12-11 20:08+0100\n"
 "Last-Translator: Alex TM <support@webtemplatemasters.com>\n"
 "Language-Team: Alex TM <support@webtemplatemasters.com>\n"
 "Language: en_US\n"
@@ -75,7 +75,7 @@ msgid ""
 "demo content if you confirm!"
 msgstr ""
 
-#: index.php:97
+#: index.php:102
 msgid "Import / Export"
 msgstr ""
 
