@@ -2157,7 +2157,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   background-color: #f5f5f5; }
   .header.type-1 .header-top {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     position: relative; }
     .header.type-1 .header-top .social-icons {
       float: right;
@@ -2897,7 +2897,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     background-color: #f5f5f5; }
   .header.type-4 .header-top {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     position: relative; }
     .header.type-4 .header-top .social-icons {
       float: right;
