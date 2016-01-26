@@ -60,7 +60,16 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		/* upload archive with demo data */
 		$db_upload_dir = $this->create_upload_folder();
 
-		$demofile_name = TMM_MIGRATE_PATH . 'demo_data/' . self::folder_key . '.zip';
+		global $tmm_demo_list;
+		$tmm_demo_list = array_keys($tmm_demo_list);
+
+		if ( !empty($_POST['demo']) && in_array($_POST['demo'], $tmm_demo_list) ) {
+			$demo = $_POST['demo'];
+		} else {
+			$demo = $tmm_demo_list[0];
+		}
+
+		$demofile_name = TMM_MIGRATE_PATH . 'demo_data/' . $demo . '/' . self::folder_key . '.zip';
 
 		if (file_exists($demofile_name)) {
 			copy( $demofile_name, $db_upload_dir . self::folder_key . '.zip' );
@@ -78,7 +87,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 				$table = basename($filename, '.dat');
 
 				try {
-					if (@strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false) {
+					if (@strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false && @strrpos($table, '_ewwwio_images', -14) === false) {
 						$this->process_table($table);
 					}
 					if(file_exists($db_upload_dir . $table . '.dsc')){

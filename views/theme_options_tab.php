@@ -2,11 +2,59 @@
 
 <h2 class="section-title"><?php _e('Demo Data Installation', 'tmm_db_migrate'); ?></h2>
 
+<?php
+TMM_OptionsHelper::draw_theme_option(array(
+	'title' => __('Import Attachments', 'tmm_db_migrate'),
+	'type' => 'checkbox',
+	'name' => 'tmm_migrate_upload_attachments',
+	'default_value' => 1,
+	'value' => 1,
+	'css_class' => '',
+	'description' => __('Download and import file attachments (images, videos, audios)', 'tmm_db_migrate')
+));
+?>
+
+<?php
+TMM_OptionsHelper::draw_theme_option(array(
+	'title' => __('Backup DB', 'tmm_db_migrate'),
+	'type' => 'checkbox',
+	'name' => 'tmm_migrate_backup',
+	'default_value' => 1,
+	'value' => 1,
+	'css_class' => '',
+	'description' => __('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
+));
+?>
+
+<?php
+global $tmm_demo_list;
+$def_demo = array_keys($tmm_demo_list);
+$demo_list = array();
+
+foreach ($tmm_demo_list as $id => $attr) {
+	$demo_list[$id] = $attr['title'];
+}
+
+TMM_OptionsHelper::draw_theme_option(array(
+	'title' => __('Choose Demo', 'tmm_db_migrate'),
+	'type' => 'select',
+	'name' => 'tmm_migrate_demo',
+	'css_class' => 'tmm_migrate_demo',
+	'default_value' => $def_demo[0],
+	'values' => $demo_list,
+	'description' => ''
+));
+?>
+
+<img id="tmm_demo_preview" style="display:block;max-width: 100%" src="<?php echo TMM_MIGRATE_URL . 'demo_data/' . $def_demo[0] . '/screenshot.png' ?>" alt="<?php echo $demo_list[$def_demo[0]] ?>" />
+
+<br><br>
+
 <div class="option">
 
 	<div class="controls alternative">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', 'tmm_db_migrate'); ?></a>
+		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Install Demo Data', 'tmm_db_migrate'); ?></a>
 
 	</div>
 
@@ -33,32 +81,6 @@
 	</div>
 
 </div>
-
-
-
-<?php
-TMM_OptionsHelper::draw_theme_option(array(
-	'title' => __('Import Attachments', 'tmm_db_migrate'),
-	'type' => 'checkbox',
-	'name' => 'tmm_migrate_upload_attachments',
-	'default_value' => 1,
-	'value' => 1,
-	'css_class' => '',
-	'description' => __('Download and import file attachments (images, videos, audios)', 'tmm_db_migrate')
-));
-?>
-
-<?php
-TMM_OptionsHelper::draw_theme_option(array(
-	'title' => __('Backup DB', 'tmm_db_migrate'),
-	'type' => 'checkbox',
-	'name' => 'tmm_migrate_backup',
-	'default_value' => 1,
-	'value' => 1,
-	'css_class' => '',
-	'description' => __('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
-));
-?>
 
 <ul id="tmm_db_migrate_process_imp"></ul>
 

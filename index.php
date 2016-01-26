@@ -15,6 +15,10 @@ define('TMM_MIGRATE_URL', plugin_dir_url(__FILE__));
 define('TMM_MIGRATE_UPLOAD_ATTACHMENTS_PACK', true);
 define('TMM_MIGRATE_UPLOAD_ATTACHMENT_BY_HTTP', false);
 
+if (is_admin()) {
+	include_once TMM_MIGRATE_PATH . 'demo_data/index.php';
+}
+
 include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateHelper.php';
 include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateExport.php';
 include_once TMM_MIGRATE_PATH . 'classes/TMM_MigrateImport.php';
@@ -41,7 +45,18 @@ function tmm_migrate_admin_enqueue_scripts() {
 		'import_started' => __('Import started. Please wait ...', 'tmm_db_migrate'),
 		'import_finished' => __('Content imported!', 'tmm_db_migrate'),
 		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', 'tmm_db_migrate'),
+		'demo' => array(),
 	);
+
+	global $tmm_demo_list;
+
+	foreach ($tmm_demo_list as $id => $attr) {
+		$tmm_lang['demo'][$id][] = array(
+			'title' => $attr['title'],
+			'preview' => TMM_MIGRATE_URL . 'demo_data/' . $id . '/screenshot.png',
+		);
+	}
+
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
 	wp_localize_script('tmm_db_migrate', 'tmm_migrate_l10n', $tmm_lang);
