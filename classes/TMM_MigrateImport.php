@@ -217,6 +217,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 
 				if (!empty($row)) {
 					$data = array();
+                    $url = parse_url(get_home_url());
 
 					if (isset($row['option_name']) && isset($this->saved_options[ $row['option_name'] ])) {
 						$row['option_value'] = $this->saved_options[ $row['option_name'] ];
@@ -227,6 +228,12 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 					}
 
 					foreach ($row as $key => $value) {
+                        if (strstr($value, "#_SCHEME_#")) {
+                            $value = str_replace("#_SCHEME_#", $url["scheme"], $value);
+                        }
+                        if (strstr($value, "#_HOST_#")) {
+                            $value = str_replace("#_HOST_#", $url["host"], $value);
+                        }
 
 						if (is_array($value) OR is_object($value)) {
 							$data[$key] = serialize($value);
