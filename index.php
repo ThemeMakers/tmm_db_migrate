@@ -4,7 +4,7 @@
  * Plugin URI: http://webtemplatemasters.com
  * Description: ThemeMakers WordPress DataBase Migration
  * Author: ThemeMakers
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author URI: http://themeforest.net/user/ThemeMakers
  * Text Domain: tmm_db_migrate
  */
@@ -34,13 +34,13 @@ add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
 function tmm_migrate_admin_enqueue_scripts() {
 
 	$tmm_lang = array(
-		'prepare_finished' => __('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
-		'process_table' => __('Process table:', TMM_MIGRATE_TEXTDOMAIN),
-		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
-		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
-		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
-		'import_finished' => __('Content imported!', TMM_MIGRATE_TEXTDOMAIN),
-		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
+		'prepare_finished' => esc_html__('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_table' => esc_html__('Process table:', TMM_MIGRATE_TEXTDOMAIN),
+		'process_finished' => esc_html__('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
+		'download_zip' => esc_html__('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
+		'import_started' => esc_html__('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
+		'import_finished' => esc_html__('Content imported!', TMM_MIGRATE_TEXTDOMAIN),
+		'import_caution' => esc_html__('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
 	);
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
@@ -93,7 +93,7 @@ function tmm_migrate_add_settings_tab() {
 			);
 
 			$sections = array(
-				'name' => __("Import / Export", TMM_MIGRATE_TEXTDOMAIN),
+				'name' => esc_html__("Import / Export", TMM_MIGRATE_TEXTDOMAIN),
 				'css_class' => 'shortcut-plugins',
 				'show_general_page' => true,
 				'content' => $content,
