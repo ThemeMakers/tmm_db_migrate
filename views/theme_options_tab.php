@@ -53,8 +53,8 @@ TMM_OptionsHelper::draw_theme_option(array(
 	'title' => __('Backup DB', TMM_MIGRATE_TEXTDOMAIN),
 	'type' => 'checkbox',
 	'name' => 'tmm_migrate_backup',
-	'default_value' => 1,
-	'value' => 1,
+	'default_value' => 0,
+	'value' => 0,
 	'css_class' => '',
 	'description' => __('Backup your database content before importing. Placed in ', TMM_MIGRATE_TEXTDOMAIN) . "'/uploads/tmm_backup/'"
 ));
