@@ -10,13 +10,13 @@ class TMM_MigrateHelper {
 		$wp_upload_dir =  $this->get_wp_upload_dir();
 		return $wp_upload_dir . self::folder_key . self::DIRSEP;
 	}
-	
+
 	public function get_wp_upload_dir() {
 		$path = wp_upload_dir();
 		$basedir = str_replace('\\', self::DIRSEP, $path['basedir']);
 		return $basedir . self::DIRSEP;
 	}
-	
+
 	/* theme options check TODO: check this function usage */
 	public static function is_zip_file_exists() {
 		$path = wp_upload_dir();
@@ -43,7 +43,7 @@ class TMM_MigrateHelper {
 
 		return $tables;
 	}
-	
+
 	protected function create_upload_folder($folder = '', $clean = false) {
 		$path = $this->get_wp_upload_dir();
 
@@ -66,7 +66,7 @@ class TMM_MigrateHelper {
 
 		return $path;
 	}
-	
+
 	protected function extract_zip($file_name = '') {
 		if (!$file_name) {
 			$file_name = $this->get_upload_dir() . self::folder_key . '.zip';

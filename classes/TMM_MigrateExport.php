@@ -56,7 +56,7 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 							'layerslider_update_info',
 							'wp_icl_translators_cached'
 						);
-	                    $pos = strpos($row['option_name'], '_transient_');
+						$pos = strpos($row['option_name'], '_transient_');
 
 						if (in_array($row['option_name'], $continue_array) || $pos !== false) {
 							continue;
@@ -142,11 +142,11 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		$zip_filename = $zip_path . self::folder_key . '.zip';
 
 		global $wpdb;
-		
+
 		file_put_contents($zip_path . 'wpdb.prfx', $wpdb->prefix);
 
 		mbstring_binary_safe_encoding();
-				
+
 		require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
 		$zip = new PclZip($zip_filename);
 
@@ -163,7 +163,7 @@ class TMM_MigrateExport extends TMM_MigrateHelper {
 		@$zip->create();
 
 		reset_mbstring_encoding();
-		
+
 		foreach ($tables as $table) {
 			if(file_exists($zip_path . $table . '.dsc')){
 				unlink($zip_path . $table . '.dsc');

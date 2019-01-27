@@ -32,8 +32,8 @@ var TMM_DB_MIGRATE = function() {
 			process_html += '<div class="import-status">' + tmm_migrate_l10n.import_started + '</div>';
 			process_div.append(process_html);
 
-			var do_backup = jQuery('#tmm_migrate_backup').length ? jQuery('#tmm_migrate_backup').val() : 1,
-				upload_attachments = jQuery('#tmm_migrate_upload_attachments').length ? jQuery('#tmm_migrate_upload_attachments').val() : 1;
+			var do_backup = jQuery('#tmm_migrate_backup').attr('checked') ? 1 : 0,
+				upload_attachments = jQuery('#tmm_migrate_upload_attachments').attr('checked') ? 1 : 0;
 
 			var data = {
 				action: "tmm_migrate_import_content",
@@ -134,5 +134,3 @@ jQuery(document).ready(function () {
 	var tmm_db_import = new TMM_DB_MIGRATE();
 	tmm_db_import.init();
 });
-
-

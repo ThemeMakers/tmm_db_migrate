@@ -1,13 +1,13 @@
 <?php
 /*
- * Plugin Name: ThemeMakers DB Migrate
- * Plugin URI: http://webtemplatemasters.com
- * Description: ThemeMakers WordPress DataBase Migration
- * Author: ThemeMakers
- * Version: 2.0.3
- * Author URI: http://themeforest.net/user/ThemeMakers
- * Text Domain: tmm_db_migrate
- */
+* Plugin Name: ThemeMakers DB Migrate
+* Plugin URI: http://webtemplatemasters.com
+* Description: ThemeMakers WordPress DataBase Migration
+* Author: ThemeMakers
+* Version: 2.0.4
+* Author URI: http://themeforest.net/user/ThemeMakers
+* Text Domain: tmm_db_migrate
+*/
 
 define('TMM_MIGRATE_TEXTDOMAIN', 'tmm_db_migrate');
 define('TMM_MIGRATE_PATH', plugin_dir_path(__FILE__));

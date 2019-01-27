@@ -6,7 +6,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 	private $demo_user_id = 0;
 
 	public function __construct() {}
-	
+
 	/* handle objects before push content to eval function */
 	private static function set_state($array) {
 		$obj = new stdClass();
@@ -204,7 +204,7 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 		$content = str_replace('stdClass::__set_state', 'self::set_state', $content);
 
 		eval('$table_data=' . $content . ';');
-		
+
 		if (!empty($table_data) AND is_array($table_data)) {
 			foreach ($table_data as $row) {
 
