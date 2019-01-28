@@ -46,22 +46,21 @@ TMM_OptionsHelper::draw_theme_option(array(
 	'css_class' => '',
 	'description' => esc_html__('Download and import file attachments (images, videos, audios)', 'tmm_db_migrate')
 ));
-?>
 
-<?php
-TMM_OptionsHelper::draw_theme_option(array(
-	'title' => esc_html__('Backup DB', 'tmm_db_migrate'),
-	'type' => 'checkbox',
-	'name' => 'tmm_migrate_backup',
-	'default_value' => 0,
-	'value' => 0,
-	'css_class' => '',
-	'description' => esc_html__('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
-));
+//TMM_OptionsHelper::draw_theme_option(array(
+//	'title' => esc_html__('Backup DB', 'tmm_db_migrate'),
+//	'type' => 'checkbox',
+//	'name' => 'tmm_migrate_backup',
+//	'default_value' => 0,
+//	'value' => 0,
+//	'css_class' => '',
+//	'description' => esc_html__('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
+//));
 ?>
 
 <ul id="tmm_db_migrate_process_imp"></ul>
 
+<!--
 <hr>
 <br><br>
 
@@ -85,3 +84,4 @@ TMM_OptionsHelper::draw_theme_option(array(
 	</div>
 
 </div>
+-->
