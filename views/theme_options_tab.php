@@ -173,7 +173,7 @@
 	}
 </style>
 
-<h2 class="section-title"><?php _e('Demo Data Installation', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2 class="section-title"><?php esc_html_e('Demo Data Installation', 'tmm_db_migrate'); ?></h2>
 
 <div class="option">
 
@@ -181,18 +181,18 @@
 
 		<div class="option">
 			<input  id="demodata" type="radio" class="showhide" data-show-hide="demo_data" name="install_data" value="0" checked="checked" />
-			<label for="demodata"><span></span><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></label>
+			<label for="demodata"><span></span><?php esc_html_e('Demo Data Install', 'tmm_db_migrate'); ?></label>
 			<input  id="carproducers" type="radio" class="showhide" data-show-hide="carproducers_data" name="install_data" value="1" />
-			<label for="carproducers"><span></span><?php _e('Import Carproducers', TMM_MIGRATE_TEXTDOMAIN); ?></label>
+			<label for="carproducers"><span></span><?php esc_html_e('Import Carproducers', 'tmm_db_migrate'); ?></label>
 		</div>
 
 		<ul  class="show-hide-items">
 
 			<li class="demo_data">
-				<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+				<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php esc_html_e('Demo Data Install', 'tmm_db_migrate'); ?></a>
 			</li>
 			<li class="carproducers_data" style="display:none;">
-				<a href="#" class="button button-primary button-large" id="button_import_carproducers"><?php _e('Import Carproducers', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+				<a href="#" class="button button-primary button-large" id="button_import_carproducers"><?php esc_html_e('Import Carproducers', 'tmm_db_migrate'); ?></a>
 			</li>
 		</ul>
 	</div>
@@ -207,13 +207,13 @@
 
 		if ($published_posts > 3  || $published_pages > 3) { ?>
 
-			<h3 class="red"><?php _e('Important Notice:', TMM_MIGRATE_TEXTDOMAIN); ?></h3>
-			<p class="red big"><?php _e('We just defined there are some posts/pages already there on your website, therefore it is not a clean WordPress Installation!', TMM_MIGRATE_TEXTDOMAIN); ?></p>
-			<p class="big"><?php _e('Please note, that your current database(all your content) will be overwritten after clicking "Demo Data Install" button and there is no way to revert it back, so we would kindly ask you making a database backup before installing demo content.', TMM_MIGRATE_TEXTDOMAIN); ?></p>
+			<h3 class="red"><?php esc_html_e('Important Notice:', 'tmm_db_migrate'); ?></h3>
+			<p class="red big"><?php esc_html_e('We just defined there are some posts/pages already there on your website, therefore it is not a clean WordPress Installation!', 'tmm_db_migrate'); ?></p>
+			<p class="big"><?php esc_html_e('Please note, that your current database(all your content) will be overwritten after clicking "Demo Data Install" button and there is no way to revert it back, so we would kindly ask you making a database backup before installing demo content.', 'tmm_db_migrate'); ?></p>
 
 		<?php } else { ?>
 
-			<h3 class="green"><?php _e('Everything is fine.', TMM_MIGRATE_TEXTDOMAIN); ?><br/><?php _e('You are ready to go...', TMM_MIGRATE_TEXTDOMAIN); ?></h3>
+			<h3 class="green"><?php esc_html_e('Everything is fine.', 'tmm_db_migrate'); ?><br/><?php esc_html_e('You are ready to go...', 'tmm_db_migrate'); ?></h3>
 
 		<?php } ?>
 
@@ -228,23 +228,23 @@
 
 	<?php
 	TMM_OptionsHelper::draw_theme_option(array(
-		'title' => __('Import Attachments', TMM_MIGRATE_TEXTDOMAIN),
+		'title' => esc_html__('Import Attachments', 'tmm_db_migrate'),
 		'type' => 'checkbox',
 		'name' => 'tmm_migrate_upload_attachments',
 		'default_value' => 1,
 		'value' => 1,
 		'css_class' => '',
-		'description' => __('Download and import file attachments (images, videos, audios)', TMM_MIGRATE_TEXTDOMAIN)
+		'description' => esc_html__('Download and import file attachments (images, videos, audios)', 'tmm_db_migrate')
 	));
 
 //	TMM_OptionsHelper::draw_theme_option(array(
-//		'title' => __('Backup DB', TMM_MIGRATE_TEXTDOMAIN),
+//		'title' => esc_html__('Backup DB', 'tmm_db_migrate'),
 //		'type' => 'checkbox',
 //		'name' => 'tmm_migrate_backup',
 //		'default_value' => 1,
 //		'value' => 1,
 //		'css_class' => '',
-//		'description' => __('Backup your database content before importing. Placed in ', TMM_MIGRATE_TEXTDOMAIN) . "'/uploads/tmm_backup/'"
+//		'description' => esc_html__('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
 //	));
 	?>
 
@@ -257,13 +257,13 @@
 <hr>
 <br><br>
 
-<h2 class="section-title"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2 class="section-title"><?php esc_html_e('Export Data', 'tmm_db_migrate'); ?></h2>
 
 <div class="option">
 
 	<div class="controls alternative">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_export_data"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+		<a href="#" class="button button-primary button-large" id="button_prepare_export_data"><?php esc_html_e('Export Data', 'tmm_db_migrate'); ?></a>
 
 		<ul id="tmm_db_migrate_process"></ul>
 
@@ -271,8 +271,8 @@
 
 	<div class="explain alternative">
 
-		<p><?php _e('In Case you need to transfer your website to another domain the easiest way to export all the data is here.', TMM_MIGRATE_TEXTDOMAIN); ?></p>
-		<p><?php _e('Video guide on how to do that properly is coming soon...', TMM_MIGRATE_TEXTDOMAIN); ?></p>
+		<p><?php esc_html_e('In Case you need to transfer your website to another domain the easiest way to export all the data is here.', 'tmm_db_migrate'); ?></p>
+		<p><?php esc_html_e('Video guide on how to do that properly is coming soon...', 'tmm_db_migrate'); ?></p>
 
 	</div>
 
@@ -282,13 +282,13 @@
 
 <hr>
 
-<h2><?php _e('Import Locations', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2><?php esc_html_e('Import Locations', 'tmm_db_migrate'); ?></h2>
 <?php
 TMM_OptionsHelper::draw_theme_option(array(
 	'name' => 'locations_zip',
 	'type' => 'upload_zip',
 	'default_value' => '',
-	'description' => __('Only zip files.<br> While importing big countries you need to login to increase the server execution time to 300 sec (max_execution_time in PHP settings) and increase the  memory_limit to  128M as well.', TMM_MIGRATE_TEXTDOMAIN),
+	'description' => esc_html__('Only zip files.<br> While importing big countries you need to login to increase the server execution time to 300 sec (max_execution_time in PHP settings) and increase the  memory_limit to  128M as well.', 'tmm_db_migrate'),
 	'id' => 'upload_locations',
 ));
 ?>
@@ -300,17 +300,17 @@ $time = ini_get('max_execution_time');
 
 <hr>
 
-<h2><?php _e('Server Info', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2><?php esc_html_e('Server Info', 'tmm_db_migrate'); ?></h2>
 
 <div class="option">
-	<div class="controls"><?php _e( 'WP Memory Limit', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="controls"><?php esc_html_e( 'WP Memory Limit', 'tmm_db_migrate' ); ?></div>
 	<div class="explain<?php echo (int) $memory < 128 ? ' red' : ''; ?>">
 		<?php echo $memory; ?>
 		<?php
 		if ( (int) $memory < 128 ) {
-			echo '<br>' . __( 'You need to increase the server memory limit up to 128MB. See: ', TMM_MIGRATE_TEXTDOMAIN ) .
+			echo '<br>' . esc_html__( 'You need to increase the server memory limit up to 128MB. See: ', 'tmm_db_migrate' ) .
 			     '<a class="blue" href="http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP" target="_blank">' .
-			        __( 'Increasing memory allocated to PHP', TMM_MIGRATE_TEXTDOMAIN ) .
+			        esc_html__( 'Increasing memory allocated to PHP', 'tmm_db_migrate' ) .
 			     '</a>';
 		}
 		?>
@@ -318,29 +318,29 @@ $time = ini_get('max_execution_time');
 </div>
 
 <div class="option">
-	<div class="controls"><?php _e( 'PHP Max Execution Time', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="controls"><?php esc_html_e( 'PHP Max Execution Time', 'tmm_db_migrate' ); ?></div>
 	<div class="explain<?php echo (int) $time < 300 ? ' red' : ''; ?>">
 		<?php echo $time; ?>
 		<?php
 		if ( (int) $time < 300 ) {
 			echo '<br>';
-			_e( 'You need to increase the server waiting time to 300 sec', TMM_MIGRATE_TEXTDOMAIN );
+			esc_html_e( 'You need to increase the server waiting time to 300 sec', 'tmm_db_migrate' );
 		}
 		?>
 	</div>
 </div>
 
 <div class="option">
-	<div class="controls"><?php _e( 'PHP Max Input Vars', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="controls"><?php esc_html_e( 'PHP Max Input Vars', 'tmm_db_migrate' ); ?></div>
 	<div class="explain"><?php echo ini_get('max_input_vars'); ?></div>
 </div>
 
 <div class="option">
-	<div class="controls"><?php _e( 'PHP Post Max Size', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="controls"><?php esc_html_e( 'PHP Post Max Size', 'tmm_db_migrate' ); ?></div>
 	<div class="explain"><?php echo size_format( wp_convert_hr_to_bytes( ini_get('post_max_size') ) ); ?></div>
 </div>
 
 <div class="option">
-	<div class="controls"><?php _e( 'WP Max Upload File Size', TMM_MIGRATE_TEXTDOMAIN ); ?></div>
+	<div class="controls"><?php esc_html_e( 'WP Max Upload File Size', 'tmm_db_migrate' ); ?></div>
 	<div class="explain"><?php echo esc_html( size_format( wp_max_upload_size() ) );	?></div>
 </div>

@@ -12,12 +12,12 @@ include_once TMM_MIGRATE_PATH . 'cardealer/TMM_MigrateCardealerModule.php';
 function tmm_migrate_cardealer_admin_enqueue_scripts() {
 
 	$tmm_lang = array(
-		'import_carproducers_caution' => __('Are you sure?', TMM_MIGRATE_TEXTDOMAIN),
-		'import_carproducers_done' => __('Carproducers imported!', TMM_MIGRATE_TEXTDOMAIN),
-		'import_carproducers_alert' => __('Carproducers already imported!', TMM_MIGRATE_TEXTDOMAIN),
-		'loading' => __('Loading ...', TMM_MIGRATE_TEXTDOMAIN),
-		'import_location_done' => __('Your location list was successfully loaded into server\'s database', TMM_MIGRATE_TEXTDOMAIN),
-		'import_location_fail' => __('Something wrong. Please try again!', TMM_MIGRATE_TEXTDOMAIN),
+		'import_carproducers_caution' => esc_html__('Are you sure?', 'tmm_db_migrate'),
+		'import_carproducers_done' => esc_html__('Carproducers imported!', 'tmm_db_migrate'),
+		'import_carproducers_alert' => esc_html__('Carproducers already imported!', 'tmm_db_migrate'),
+		'loading' => esc_html__('Loading ...', 'tmm_db_migrate'),
+		'import_location_done' => esc_html__('Your location list was successfully loaded into server\'s database', 'tmm_db_migrate'),
+		'import_location_fail' => esc_html__('Something wrong. Please try again!', 'tmm_db_migrate'),
 	);
 
 	wp_enqueue_script('tmm_db_migrate_cardealer', TMM_MIGRATE_URL . 'cardealer/cardealer.js', array('jquery', 'tmm_db_migrate'), false, true);
