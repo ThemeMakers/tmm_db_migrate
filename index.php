@@ -34,13 +34,13 @@ add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
 function tmm_migrate_admin_enqueue_scripts() {
 
 	$tmm_lang = array(
-		'prepare_finished' => __('Prepare finished. Count of tables:', 'tmm_db_migrate'),
-		'process_table' => __('Process table:', 'tmm_db_migrate'),
-		'process_finished' => __('Process Finishing ...', 'tmm_db_migrate'),
-		'download_zip' => __('Download data zip', 'tmm_db_migrate'),
-		'import_started' => __('Import started. Please wait ...', 'tmm_db_migrate'),
-		'import_finished' => __('Content imported!', 'tmm_db_migrate'),
-		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', 'tmm_db_migrate'),
+		'prepare_finished' => esc_html__('Prepare finished. Count of tables:', 'tmm_db_migrate'),
+		'process_table' => esc_html__('Process table:', 'tmm_db_migrate'),
+		'process_finished' => esc_html__('Process Finishing ...', 'tmm_db_migrate'),
+		'download_zip' => esc_html__('Download data zip', 'tmm_db_migrate'),
+		'import_started' => esc_html__('Import started. Please wait ...', 'tmm_db_migrate'),
+		'import_finished' => esc_html__('Content imported!', 'tmm_db_migrate'),
+		'import_caution' => esc_html__('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', 'tmm_db_migrate'),
 	);
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
@@ -93,7 +93,7 @@ function tmm_migrate_add_settings_tab() {
 			);
 
 			$sections = array(
-				'name' => __("Import / Export", 'tmm_db_migrate'),
+				'name' => esc_html__("Import / Export", 'tmm_db_migrate'),
 				'css_class' => 'shortcut-plugins',
 				'show_general_page' => true,
 				'content' => $content,
