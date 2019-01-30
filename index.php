@@ -24,7 +24,7 @@ add_action( 'plugins_loaded', 'tmm_migrate_load_textdomain' );
  * Load plugin textdomain.
  */
 function tmm_migrate_load_textdomain() {
-	load_plugin_textdomain( TMM_MIGRATE_TEXTDOMAIN, false, TMM_MIGRATE_PATH . 'languages' );
+	load_plugin_textdomain( 'tmm_db_migrate', false, TMM_MIGRATE_PATH . 'languages' );
 }
 
 add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
@@ -34,13 +34,13 @@ add_action( 'admin_enqueue_scripts', 'tmm_migrate_admin_enqueue_scripts' );
 function tmm_migrate_admin_enqueue_scripts() {
 
 	$tmm_lang = array(
-		'prepare_finished' => __('Prepare finished. Count of tables:', TMM_MIGRATE_TEXTDOMAIN),
-		'process_table' => __('Process table:', TMM_MIGRATE_TEXTDOMAIN),
-		'process_finished' => __('Process Finishing ...', TMM_MIGRATE_TEXTDOMAIN),
-		'download_zip' => __('Download data zip', TMM_MIGRATE_TEXTDOMAIN),
-		'import_started' => __('Import started. Please wait ...', TMM_MIGRATE_TEXTDOMAIN),
-		'import_finished' => __('Content imported!', TMM_MIGRATE_TEXTDOMAIN),
-		'import_caution' => __('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', TMM_MIGRATE_TEXTDOMAIN),
+		'prepare_finished' => esc_html__('Prepare finished. Count of tables:', 'tmm_db_migrate'),
+		'process_table' => esc_html__('Process table:', 'tmm_db_migrate'),
+		'process_finished' => esc_html__('Process Finishing ...', 'tmm_db_migrate'),
+		'download_zip' => esc_html__('Download data zip', 'tmm_db_migrate'),
+		'import_started' => esc_html__('Import started. Please wait ...', 'tmm_db_migrate'),
+		'import_finished' => esc_html__('Content imported!', 'tmm_db_migrate'),
+		'import_caution' => esc_html__('Are you sure? Please make sure you backed up your website database before proceed installing demo. All your current content will be overwritten by the demo content if you confirm!', 'tmm_db_migrate'),
 	);
 
 	wp_enqueue_script('tmm_db_migrate', TMM_MIGRATE_URL . 'js/import_export.js', array('jquery'), false, true);
@@ -85,7 +85,7 @@ function tmm_migrate_add_settings_tab() {
 			$content = array();
 			$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
 
-			$content[ TMM_MIGRATE_TEXTDOMAIN ] = array(
+			$content[ 'tmm_db_migrate' ] = array(
 				'title' => '',
 				'type' => 'custom',
 				'custom_html' => TMM::draw_free_page($tmpl_path),
@@ -93,7 +93,7 @@ function tmm_migrate_add_settings_tab() {
 			);
 
 			$sections = array(
-				'name' => __("Import / Export", TMM_MIGRATE_TEXTDOMAIN),
+				'name' => esc_html__("Import / Export", 'tmm_db_migrate'),
 				'css_class' => 'shortcut-plugins',
 				'show_general_page' => true,
 				'content' => $content,
@@ -101,7 +101,7 @@ function tmm_migrate_add_settings_tab() {
 				'menu_icon' => 'dashicons-admin-tools'
 			);
 
-			TMM_OptionsHelper::$sections[ TMM_MIGRATE_TEXTDOMAIN ] = $sections;
+			TMM_OptionsHelper::$sections[ 'tmm_db_migrate' ] = $sections;
 
 		} else {
 			$tmpl_path = TMM_MIGRATE_PATH . '/views/theme_options_tab.php';
