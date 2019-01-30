@@ -1,12 +1,12 @@
 <?php if (!defined('ABSPATH')) die('No direct access allowed'); ?>
 
-<h2 class="section-title"><?php _e('Demo Data Installation', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2 class="section-title"><?php _e('Demo Data Installation', 'tmm_db_migrate'); ?></h2>
 
 <div class="option">
 
 	<div class="controls alternative">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+		<a href="#" class="button button-primary button-large" id="button_prepare_import_data"><?php _e('Demo Data Install', 'tmm_db_migrate'); ?></a>
 
 	</div>
 
@@ -20,13 +20,13 @@
 
 		if ($published_posts > 3  || $published_pages > 3) { ?>
 
-			<h3 class="red"><?php _e('Important Notice:', TMM_MIGRATE_TEXTDOMAIN); ?></h3>
-			<p class="red big"><?php _e('We just defined there are some posts/pages already there on your website, therefore it is not a clean WordPress Installation!', TMM_MIGRATE_TEXTDOMAIN); ?></p>
-			<p class="big"><?php _e('Please note, that your current database(all your content) will be overwritten after clicking "Demo Data Install" button and there is no way to revert it back, so we would kindly ask you making a database backup before installing demo content.', TMM_MIGRATE_TEXTDOMAIN); ?></p>
+			<h3 class="red"><?php _e('Important Notice:', 'tmm_db_migrate'); ?></h3>
+			<p class="red big"><?php _e('We just defined there are some posts/pages already there on your website, therefore it is not a clean WordPress Installation!', 'tmm_db_migrate'); ?></p>
+			<p class="big"><?php _e('Please note, that your current database(all your content) will be overwritten after clicking "Demo Data Install" button and there is no way to revert it back, so we would kindly ask you making a database backup before installing demo content.', 'tmm_db_migrate'); ?></p>
 
 		<?php } else { ?>
 
-			<h3 class="green"><?php _e('Everything is fine.', TMM_MIGRATE_TEXTDOMAIN); ?><br/><?php _e('You are ready to go...', TMM_MIGRATE_TEXTDOMAIN); ?></h3>
+			<h3 class="green"><?php _e('Everything is fine.', 'tmm_db_migrate'); ?><br/><?php _e('You are ready to go...', 'tmm_db_migrate'); ?></h3>
 
 		<?php } ?>
 
@@ -38,23 +38,23 @@
 
 <?php
 TMM_OptionsHelper::draw_theme_option(array(
-	'title' => __('Import Attachments', TMM_MIGRATE_TEXTDOMAIN),
+	'title' => __('Import Attachments', 'tmm_db_migrate'),
 	'type' => 'checkbox',
 	'name' => 'tmm_migrate_upload_attachments',
 	'default_value' => 1,
 	'value' => 1,
 	'css_class' => '',
-	'description' => __('Download and import file attachments (images, videos, audios)', TMM_MIGRATE_TEXTDOMAIN)
+	'description' => __('Download and import file attachments (images, videos, audios)', 'tmm_db_migrate')
 ));
 
 //TMM_OptionsHelper::draw_theme_option(array(
-//	'title' => __('Backup DB', TMM_MIGRATE_TEXTDOMAIN),
+//	'title' => __('Backup DB', 'tmm_db_migrate'),
 //	'type' => 'checkbox',
 //	'name' => 'tmm_migrate_backup',
 //	'default_value' => 1,
 //	'value' => 1,
 //	'css_class' => '',
-//	'description' => __('Backup your database content before importing. Placed in ', TMM_MIGRATE_TEXTDOMAIN) . "'/uploads/tmm_backup/'"
+//	'description' => __('Backup your database content before importing. Placed in ', 'tmm_db_migrate') . "'/uploads/tmm_backup/'"
 //));
 ?>
 
@@ -64,13 +64,13 @@ TMM_OptionsHelper::draw_theme_option(array(
 <hr>
 <br><br>
 
-<h2 class="section-title"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></h2>
+<h2 class="section-title"><?php _e('Export Data', 'tmm_db_migrate'); ?></h2>
 
 <div class="option">
 
 	<div class="controls alternative">
 
-		<a href="#" class="button button-primary button-large" id="button_prepare_export_data"><?php _e('Export Data', TMM_MIGRATE_TEXTDOMAIN); ?></a>
+		<a href="#" class="button button-primary button-large" id="button_prepare_export_data"><?php _e('Export Data', 'tmm_db_migrate'); ?></a>
 
 		<ul id="tmm_db_migrate_process"></ul>
 
@@ -78,8 +78,8 @@ TMM_OptionsHelper::draw_theme_option(array(
 
 	<div class="explain alternative">
 
-		<p><?php _e('In Case you need to transfer your website to another domain the easiest way to export all the data is here.', TMM_MIGRATE_TEXTDOMAIN); ?></p>
-		<p><?php _e('Video guide on how to do that properly is coming soon...', TMM_MIGRATE_TEXTDOMAIN); ?></p>
+		<p><?php _e('In Case you need to transfer your website to another domain the easiest way to export all the data is here.', 'tmm_db_migrate'); ?></p>
+		<p><?php _e('Video guide on how to do that properly is coming soon...', 'tmm_db_migrate'); ?></p>
 
 	</div>
 
