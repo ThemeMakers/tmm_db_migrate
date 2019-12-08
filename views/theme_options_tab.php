@@ -288,7 +288,7 @@ TMM_OptionsHelper::draw_theme_option(array(
 	'name' => 'locations_zip',
 	'type' => 'upload_zip',
 	'default_value' => '',
-	'description' => esc_html__('Only zip files.<br> While importing big countries you need to login to increase the server execution time to 300 sec (max_execution_time in PHP settings) and increase the  memory_limit to  128M as well.', 'tmm_db_migrate'),
+	'description' => esc_html__('Only zip files. While importing big countries you need to login to increase the server execution time to 300 sec (max_execution_time in PHP settings) and increase the  memory_limit to  128M as well.', 'tmm_db_migrate'),
 	'id' => 'upload_locations',
 ));
 ?>
