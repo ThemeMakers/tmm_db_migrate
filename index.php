@@ -4,7 +4,7 @@
  * Plugin URI: http://webtemplatemasters.com
  * Description: ThemeMakers WordPress DataBase Migration
  * Author: ThemeMakers
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author URI: http://themeforest.net/user/ThemeMakers
  * Text Domain: tmm_db_migrate
  */
