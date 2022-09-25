@@ -78,7 +78,10 @@ class TMM_MigrateImport extends TMM_MigrateHelper {
 				$table = basename($filename, '.dat');
 
 				try {
-					if (@strrpos($table, '_users', -6) === false && @strrpos($table, '_usermeta', -9) === false) {
+					$users = strrpos($table, '_users');
+					$usermeta = strrpos($table, '_usermeta');
+
+					if ($users === false && $usermeta === false) {
 						$this->process_table($table);
 					}
 					if(file_exists($db_upload_dir . $table . '.dsc')){
