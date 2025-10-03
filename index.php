@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name: ThemeMakers DB Migrate
- * Plugin URI: http://webtemplatemasters.com
+ * Plugin URI: https://webtemplatemasters.com
  * Description: ThemeMakers WordPress DataBase Migration
  * Author: ThemeMakers
  * Version: 2.1.2
- * Author URI: http://themeforest.net/user/ThemeMakers
+ * Author URI: https://themeforest.net/user/ThemeMakers
  * Text Domain: tmm_db_migrate
  * Domain Path: /languages/
  */
@@ -17,6 +17,15 @@ define('TMM_MIGRATE_URL', trailingslashit(plugin_dir_url(__FILE__)));
 define('TMM_MIGRATE_UPLOAD_ATTACHMENTS_PACK', true);
 define('TMM_MIGRATE_UPLOAD_ATTACHMENT_BY_HTTP', false);
 define('TMM_MIGRATE_IGNORE_WPML', true);
+
+if (!function_exists('tmm_migrate_load_textdomain')) {
+	function tmm_migrate_load_textdomain()
+	{
+		load_plugin_textdomain(TMM_MIGRATE_TEXTDOMAIN, false, dirname(plugin_basename(__FILE__)) . '/languages/');
+	}
+}
+
+add_action('plugins_loaded', 'tmm_migrate_load_textdomain');
 
 include_once TMM_MIGRATE_PATH . '/classes/TMM_MigrateHelper.php';
 include_once TMM_MIGRATE_PATH . '/classes/TMM_MigrateExport.php';
